@@ -53,9 +53,8 @@ let exportedMethods = {
 
     const userCollection = await users();
     const deletionInfo = await userCollection.deleteOne({_id: ObjectId(id)});
-    if (deletionInfo.deletedCount === 0) {
-      throw `Could not delete user with id of ${id}`;
-    }
+    if (deletionInfo.deletedCount === 0) throw `Error: Could not delete user with id of ${id}`;
+
     return true;
   },
   async updateUser(id, updatedUser) {
