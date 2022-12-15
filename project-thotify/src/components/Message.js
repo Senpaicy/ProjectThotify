@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+// import {useLocation} from 'react-router-dom';
 import io from 'socket.io-client';
 import './../App.css';
 
@@ -8,7 +8,8 @@ function Message() {
   // const location = useLocation();
   // const [state, setState] = useState(location.state);
   // temporary state for testing purposes
-  const [state, setState] = useState({message: '', name: 'Bob', room: 'A', recipient: 'Frank', history:[{name: "Bob", message: "Hi"},{name: "Frank", message: "Hello"}]});
+  // currently has zero protection against unauthorized users joining the chat
+  const [state, setState] = useState({message: '', name: '', room: 'A', recipient: 'Frank', history:[{name: "Bob", message: "Hi"},{name: "Frank", message: "Hello"}]});
   const [chat, setChat] = useState([]);
 
   const socketRef = useRef();
@@ -16,7 +17,8 @@ function Message() {
   useEffect(() => {
     socketRef.current = io('/');
     // setState({name: document.getElementById('username_input').value, room: document.getElementById('room_input').value});
-    socketRef.current.emit('create_room', state.name, state.room);
+    socketRef.current.emit('create_room', "Bob", "A");
+    // console.log("Room Created");
     return () => {
       socketRef.current.disconnect();
     };
@@ -26,26 +28,10 @@ function Message() {
     socketRef.current.on('message', ({name, message}) => {
       setChat([...chat, {name, message}]);
     });
-    // don't need messages for user joining and leaving the chat 
-    // socketRef.current.on('user_join', function (data) {
-    //   setChat([
-    //     ...chat,
-    //     {name: 'ChatBot', message: `${data} has joined the chat`},
-    //   ]);
-    // });
-    // socketRef.current.on('user_leave', function (data) {
-    //   setChat([
-    //     ...chat,
-    //     {name: 'ChatBot', message: `${data} has left the chat`},
-    //   ]);
-    // });
   }, [chat]);
 
-  // const createroom = (name, room) => {
-  //   socketRef.current.emit('create_room', name, room);
-  // };
-
   const onMessageSubmit = (e) => {
+    console.log("Message send called");
     let msgEle = document.getElementById('message');
     console.log([msgEle.name], msgEle.value);
     setState({...state, [msgEle.name]: msgEle.value});
@@ -63,6 +49,7 @@ function Message() {
     setChat([]);
     socketRef.current.emit('leave_room', state.name, state.room);
     setState({message: '', name: '', room: ''});
+    //leads to form submission being cancelled because the form is not connected
     // push chat to history on database
     
   };
@@ -92,7 +79,7 @@ function Message() {
       {state.name && (
         <div className='card'>
           <div className='render-chat'>
-            <h1>Chat With {recipient}</h1>
+            <h1>Chat With {state.recipient}</h1>
             {renderHistory()}
             {renderChat()}
           </div>
@@ -115,37 +102,6 @@ function Message() {
         </div>
       )}
 
-
-      {/* {!state.name && (
-        <form
-          className='form'
-          onSubmit={(e) => {
-            console.log(document.getElementById('username_input').value);
-            e.preventDefault();
-            setState({name: document.getElementById('username_input').value, room: document.getElementById('room_input').value});
-            // userjoin(document.getElementById('username_input').value);
-            createroom(document.getElementById('username_inpudt').value, document.getElementById('room_input').value);
-            // userName.value = '';
-          }}
-        >
-          <div className='form-group'>
-            <label>
-              User Name:
-              <br />
-              <input id='username_input' />
-              <br />
-              Room ID:
-              <br />
-              <input id='room_input' />
-            </label>
-          </div>
-          <br />
-
-          <br />
-          <br />
-          <button type='submit'> Click to join</button>
-        </form>
-      )} */}
     </div>
   );
 };
