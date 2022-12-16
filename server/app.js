@@ -1,10 +1,11 @@
 const express = require("express");
 var cors = require("cors");
+var cookieParser = require("cookie-parser");
 const app = express();
+const configRoutes = require("./routes");
 
 app.use(cors());
-
-const configRoutes = require("./routes");
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
