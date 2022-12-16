@@ -16,7 +16,7 @@ const exportedMethods = {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
         const chatCollection = await chats();
-        const chat = await chatCollection.findOne({ _id: ObjectId(id) });
+        const chat = await chatCollection.findOne({ _id: ObjectId(chat_id) });
         if (!chat) throw "Error: Chatroom is not found.";
         return chat;
     },
@@ -41,7 +41,7 @@ const exportedMethods = {
     async createChat(users) {
         users = errorChecking.checkArray(users, 'Chatroom Users', 'string', true);
 
-        const chatCollection = await chat();
+        const chatCollection = await chats();
 
         let newChat = {
             users: users,
@@ -62,9 +62,26 @@ const exportedMethods = {
 
         return true;
     },
-    async updateChat(chat_id) {
-        // TO DO
-        return null;
+    async updateChat(chat_id, updatedChat) {
+        const updateChatData = {};
+        const chatCollection = await chat();
+
+        chat_id = errorChecking.checkId(chat_id, 'Chat ID');
+
+        if (updatedChat.users) {
+            updatedChat.users = errorChecking.checkArray(updatedChat.users, 'Updated Chatroom Users', 'string', true);
+        }
+
+        if (updatedChat.history) {
+            updatedChat.history = errorChecking.checkArray(updatedChat.history, 'Update Chatroom History', 'object', true);
+        }
+
+        await chatCollection.updateOne(
+            {_id: ObjectId(chat_id)},
+            {$set: updateChatData}
+        );
+
+        return await this.getChatById(chat_id);
     }
 };
 

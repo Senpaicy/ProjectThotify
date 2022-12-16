@@ -16,7 +16,7 @@ module.exports = {
         if (!stringVal) throw `Error: You must provide a ${variableName}.`;
         if (typeof stringVal !== 'string') throw `Error: ${variableName} must be a string.`;
 
-        stringVal = strVal.trim();
+        stringVal = stringVal.trim();
 
         if (stringVal.length === 0) throw `Error: ${variableName} cannot be an empty string.`;
 

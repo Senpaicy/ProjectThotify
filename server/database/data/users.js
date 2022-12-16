@@ -1,4 +1,4 @@
-const mongoCollections = required("../config/mongoCollections");
+const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 // const chats = mongoCollections.chats;
 
