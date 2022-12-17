@@ -4,8 +4,7 @@
 const express = require("express");
 const querystring = require("querystring");
 const router = express.Router();
-var querystring = require("querystring");
-var cookieParser = require("cookie-parser");
+const request = require("request");
 
 require("dotenv").config();
 
@@ -31,12 +30,13 @@ var generateRandomString = function (length) {
 
 var stateKey = "spotify_auth_state";
 
-app.get("/login", function (req, res) {
+router.get("/login", function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
-
+  console.log("triggering in login");
   // your application requests authorization
-  var scope = "user-read-private user-read-email";
+  var scope =
+    "ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing streaming app-remote-control user-read-email user-read-private playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private user-library-modify user-library-read user-top-read user-read-playback-position user-read-recently-played user-follow-read user-follow-modify";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -48,17 +48,18 @@ app.get("/login", function (req, res) {
       })
   );
 });
-app.get("/callback", function (req, res) {
+
+router.get("/callback", function (req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
-
+  console.log(`state: ${state}, storedState: ${storedState}`);
   if (state === null || state !== storedState) {
     res.redirect(
-      "/#" +
+      "http://localhost:3000/#" +
         querystring.stringify({
           error: "state_mismatch",
         })
@@ -97,16 +98,18 @@ app.get("/callback", function (req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
+        console.log("triggering in callback");
         res.redirect(
-          "/#" +
+          "http://localhost:3000/#" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
             })
         );
       } else {
+        console.log("triggering in callback else");
         res.redirect(
-          "/#" +
+          "http://localhost:3000/#" +
             querystring.stringify({
               error: "invalid_token",
             })
@@ -116,7 +119,7 @@ app.get("/callback", function (req, res) {
   }
 });
 
-app.get("/refresh_token", function (req, res) {
+router.get("/refresh_token", function (req, res) {
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token;
   var authOptions = {
