@@ -5,8 +5,8 @@ import axios from 'axios';
 
 function Profile() {
 
-  // const [userData, setuserData] = useState(undefined);
-  const [userData, setuserData] = useState({
+  // const [userData, setUserData] = useState(undefined);
+  const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
     bio: {
@@ -29,7 +29,7 @@ function Profile() {
     async function fetchData() {
       try {
         const { data } = await axios.get(profileURL);
-        setuserData(data);
+        setUserData(data);
         setLoading(false);
         console.log(data);
       } catch (e) {
