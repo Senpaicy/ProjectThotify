@@ -15,6 +15,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 const spotifyApi = new SpotifyWebApi();
 
+//reference from https://www.youtube.com/watch?v=bhkg2godRDc
 const getTokenFromUrl = () => {
   return window.location.hash
     .substring(1)
@@ -29,7 +30,9 @@ const getTokenFromUrl = () => {
 function App() {
   const [spotifyToken, setSpotifyToken] = useState("");
   const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
+  const [user, setUser] = useState({});
 
+  //reference from https://www.youtube.com/watch?v=bhkg2godRDc
   useEffect(() => {
     console.log(`Here is what we got from url: ${getTokenFromUrl()}`);
     const spotifyToken = getTokenFromUrl().access_token;
