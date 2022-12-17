@@ -23,7 +23,7 @@ const exportedMethods = {
     async getUsersInChat(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
-        const chat = this.getChatById(chat_id);
+        const chat = await this.getChatById(chat_id);
         if (!chat.users) throw 'Error: Users does not exist for this chat in the system.';
         if (chat.users === []) throw 'Error: There are no users in this chat.';
 
@@ -32,18 +32,20 @@ const exportedMethods = {
     async getChatHistory(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
-        const chat = this.getChatById(chat_id);
+        const chat = await this.getChatById(chat_id);
         if (!chat.history) throw 'Error: Users does not exist for this chat in the system.';
         if (chat.history === []) throw 'Error: There are no users in this chat.';
 
         return chat.history;
     },
-    async createChat(users) {
+    async createChat(chatName, users) {
+        chatName = errorChecking.checkString(chatName, 'Chat Name', false);
         users = errorChecking.checkArray(users, 'Chatroom Users', 'string', true);
 
         const chatCollection = await chats();
 
         let newChat = {
+            chatName: chatName,
             users: users,
             history: []
         };
@@ -56,24 +58,28 @@ const exportedMethods = {
     async deleteChat(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
-        const chatCollection = await chat();
-        const deletionInfo = await chatCollection.deleteOne({_id: ObjectId(id)});
+        const chatCollection = await chats();
+        const deletionInfo = await chatCollection.deleteOne({_id: ObjectId(chat_id)});
         if (deletionInfo.deletedCount === 0) throw `Error: Could not delete user with id of ${id}`;
 
         return true;
     },
     async updateChat(chat_id, updatedChat) {
         const updateChatData = {};
-        const chatCollection = await chat();
+        const chatCollection = await chats();
 
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
+        if (updatedChat.chatName) {
+            updateChatData.chatName = errorChecking.checkString(updatedChat.chatName, 'Updated Chatroom Name', false);
+        }
+
         if (updatedChat.users) {
-            updatedChat.users = errorChecking.checkArray(updatedChat.users, 'Updated Chatroom Users', 'string', true);
+            updateChatData.users = errorChecking.checkArray(updatedChat.users, 'Updated Chatroom Users', 'string', true);
         }
 
         if (updatedChat.history) {
-            updatedChat.history = errorChecking.checkArray(updatedChat.history, 'Update Chatroom History', 'object', true);
+            updateChatData.history = errorChecking.checkArray(updatedChat.history, 'Update Chatroom History', 'object', true);
         }
 
         await chatCollection.updateOne(

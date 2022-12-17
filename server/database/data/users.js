@@ -39,8 +39,7 @@ let exportedMethods = {
       rejects: [],
       prospectiveMatches: [],
       topArtists: [],
-      topAlbums: [],
-      topGenres: [],
+      topTracks: []
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -64,13 +63,11 @@ let exportedMethods = {
     updatedUser.bio.description = errorChecking.checkString(updatedUser.bio.description, 'Bio Description', true);
     updatedUser.bio.funFact = errorChecking.checkString(updatedUser.bio.funFact, 'Bio Fun Fact', true);
     updatedUser.bio.other = errorChecking.checkString(updatedUser.bio.other, 'Bio Other', true);
-
     updatedUser.matches = errorChecking.checkArray(updatedUser.matches, 'Matches', 'string', true);
     updatedUser.rejects = errorChecking.checkArray(updatedUser.rejects, 'Rejects', 'string', true);
     updatedUser.prospectiveMatches = errorChecking.checkArray(updatedUser.prospectiveMatches, 'Prospective Matches', 'string', true);
     updatedUser.topArtists = errorChecking.checkArray(updatedUser.topArtists, 'Top Artists', 'string', true);
-    updatedUser.topAlbums = errorChecking.checkArray(updatedUser.topAlbums, 'Top Albums', 'string', true);
-    updatedUser.topGenres = errorChecking.checkArray(updatedUser.topGenres, 'Top Genres', 'string', true);
+    updatedUser.topTracks = errorChecking.checkArray(updatedUser.topTracks, 'Top Tracks', 'string', true);
 
     let userUpdateInfo = {
       firstName: updatedUser.firstName,
@@ -80,8 +77,7 @@ let exportedMethods = {
       rejects: updatedUser.rejects,
       prospectiveMatches: updatedUser.prospectiveMatches,
       topArtists: updatedUser.topArtists,
-      topAlbums: updatedUser.topAlbums,
-      topGenres: updatedUser.topGenres,
+      topTracks: updatedUser.topTracks
     };
 
     const userCollection = await users();

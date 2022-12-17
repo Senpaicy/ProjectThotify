@@ -28,11 +28,13 @@ module.exports = {
     checkArray(arr, varName, typeOfArray, allowEmptyArray) {
         if (!arr) throw `Error: You must provide a ${variableName}.`;
         if (!Array.isArray(arr)) throw `Error: ${varName} must be an array.`;
+        if (!allowEmptyArray && arr === []) throw `Error: ${varName} cannot be empty.`
 
         // Loops through array and checks if array is of the correct type.
         for (i in arr) {
           if (typeof arr[i] !== typeOfArray) {
             if (typeOfArray === 'string') {
+                console.log(arr[i]);
                 arr[i] = arr[i].trim();
                 if(arr[i].length === 0) throw `Error: Object at index ${i} cannot be an empty string.`;
             }
