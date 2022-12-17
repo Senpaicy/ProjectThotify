@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './../App.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Profile() {
@@ -23,12 +23,13 @@ function Profile() {
 
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const profileURL = "";
+  const profileURL = "http://localhost:8888/users/";
+  let { id } = useParams();
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axios.get(profileURL);
+        const { data } = await axios.get(profileURL + id);
         setuserData(data);
         setLoading(false);
         console.log(data);
@@ -73,7 +74,7 @@ function Profile() {
       <h1>Top Artists</h1>
       {userData.topArtists.map((artist, index) => {
         return (
-          <div>{index + 1}. {artist}</div>
+          <div key={index}>{index + 1}. {artist}</div>
         );
       })}
     </div>
@@ -84,7 +85,7 @@ function Profile() {
       <h1>Top Tracks</h1>
       {userData.topTracks.map((track, index) => {
         return (
-          <div>{index + 1}. {track}</div>
+          <div key={index}>{index + 1}. {track}</div>
         );
       })}
     </div>

@@ -82,6 +82,8 @@ router.post("/create-user-profile", async (req, res) => {
   }
 });
 
-router.post("/add-spotify-credentials", (req, res) => {});
+router.post("/add-spotify-credentials", async (req, res) => {
+  
+});
 
 module.exports = router;
