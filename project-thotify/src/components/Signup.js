@@ -1,24 +1,26 @@
-import { useState } from "react";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import "./App.css";
-import { auth } from "./firebase-config";
+import React, { useState } from "react";
+import "../App.css";
+import { useAuth } from "../contexts/AuthContext";
 
 function Signup({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signup } = useAuth();
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async () => {
+    const user = {
+      email,
+      password,
+    };
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("????????");
+      const user = await signup(email, password);
+      console.log("am i not erroring");
       console.log(user);
     } catch (error) {
+      console.log("am i erroring");
       console.log(error.message);
     }
   };

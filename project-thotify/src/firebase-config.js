@@ -1,19 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-require("dotenv").config();
+import { getAuth } from "firebase/auth";
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAaTdB0o-pJWyobydpnZgJRAR9p0IcTIsk",
+  authDomain: "project-thotify.firebaseapp.com",
+  projectId: "project-thotify",
+  storageBucket: "project-thotify.appspot.com",
+  messagingSenderId: "233689270497",
+  appId: "1:233689270497:web:aa24f954cbe3efc59ecfa0",
+  measurementId: "G-XZ5KM9YSLM",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
+
+export const auth = getAuth(app);

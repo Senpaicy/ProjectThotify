@@ -1,6 +1,9 @@
 // import logo from './logo.svg';
 import "./App.css";
 import React, { useEffect, useState } from "react";
+import SpotifyWebApi from "spotify-web-api-node";
+import { AuthProvider } from "./contexts/AuthContext";
+import "./App.css";
 import {
   NavLink,
   BrowserRouter as Router,
@@ -11,7 +14,8 @@ import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Matches from "./components/Matches";
 import Message from "./components/Message";
-import SpotifyWebApi from "spotify-web-api-node";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -50,37 +54,51 @@ function App() {
   });
   return (
     <Router>
-      <div>
-        <header className="App-header">
-          <h1 className="App-title">Thotify</h1>
-          <nav>
-            <NavLink className="navlink" to="/">
-              Home
-            </NavLink>
-            |
-            <NavLink className="navlink" to="/profile/0">
-              {/*Need to change link above to logged in user's profile, or redirect to login*/}
-              My Profile
-            </NavLink>
-            |
-            <NavLink className="navlink" to="/my-matches">
-              My Matches
-            </NavLink>
-            |
-            <NavLink className="navlink" to="/message/">
-              Message Test
-            </NavLink>
-          </nav>
-        </header>
-        <div className="App-body">
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route exact path="/my-matches/" element={<Matches />} />
-            <Route path="/message/" element={<Message />} />
-          </Routes>
+      <AuthProvider>
+        <div>
+          <header className="App-header">
+            <h1 className="App-title">Thotify</h1>
+            <nav>
+              <NavLink className="navlink" to="/">
+                Home
+              </NavLink>
+              |
+              <NavLink className="navlink" to="/profile/0">
+                {/*Need to change link above to logged in user's profile, or redirect to login*/}
+                My Profile
+              </NavLink>
+              |
+              <NavLink className="navlink" to="/my-matches">
+                My Matches
+              </NavLink>
+              |
+              <NavLink className="navlink" to="/message/">
+                Message Test
+              </NavLink>
+              |
+              <NavLink className="navlink" to="/login">
+                {/*Need to change link above to logged in user's profile, or redirect to login*/}
+                Login
+              </NavLink>
+              |
+              <NavLink className="navlink" to="/signup">
+                {/*Need to change link above to logged in user's profile, or redirect to login*/}
+                Signup
+              </NavLink>
+            </nav>
+          </header>
+          <div className="App-body">
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route exact path="/my-matches/" element={<Matches />} />
+              <Route path="/message/" element={<Message />} />
+              <Route path="/login/" element={<Login />} />
+              <Route path="/signup/" element={<Signup />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      </AuthProvider>
     </Router>
   );
 }

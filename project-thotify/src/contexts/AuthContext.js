@@ -1,44 +1,53 @@
 //reference from https://github.com/WebDevSimplified/React-Firebase-Auth
-
+//Uses React Context API for Firebase Auth
 import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
+  updateEmail,
+  updatePassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "../firebase-config";
 
 const AuthContext = React.createContext();
 
-function useAuth() {
+export function useAuth() {
   return useContext(AuthContext);
 }
 
-function AuthProvider({ children }) {
+export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
+    return signInWithEmailAndPassword(auth, email, password);
   }
 
   function logout() {
-    return auth.signOut();
+    return signOut(auth);
   }
 
   function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
+    return sendPasswordResetEmail(auth, email);
   }
 
   function updateEmail(email) {
-    return currentUser.updateEmail(email);
+    return updateEmail(auth, email);
   }
 
   function updatePassword(password) {
-    return currentUser.updatePassword(password);
+    return updatePassword(auth, password);
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
@@ -62,8 +71,3 @@ function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-module.exports = {
-  useAuth,
-  AuthProvider,
-};
