@@ -7,10 +7,10 @@ async function main() {
     const db = await dbConnection.dbConnection();
     await db.dropDatabase();
 
-    const cindy = await users.addUser('Cindy', 'Zhang', 'spotifyUser101', {description: 'cindys description', funFact: 'cindys fun fact', other: 'cindys other'});
-    const jacob = await users.addUser('Jacob', 'Wood', 'spotifyUser102', {description: 'jacobs description', funFact: 'jacobs fun fact', other: 'jacobs other'});
-    const eric = await users.addUser('Eric', 'Rudzin', 'spotifyUser103', {description: 'erics description', funFact: 'erics fun fact', other: 'erics other'});
-    const farhan = await users.addUser('Farhan', 'Shaik', 'spotifyUser104', {description: 'farhans description', funFact: 'farhans fun fact', other: 'farhans other'});
+    const cindy = await users.addUser('Cindy', 'Zhang', 'spotifyUser101@gmail.com', {description: 'cindys description', funFact: 'cindys fun fact', other: 'cindys other'});
+    const jacob = await users.addUser('Jacob', 'Wood', 'spotifyUser102@gmail.com', {description: 'jacobs description', funFact: 'jacobs fun fact', other: 'jacobs other'});
+    const eric = await users.addUser('Eric', 'Rudzin', 'spotifyUser103@gmail.com', {description: 'erics description', funFact: 'erics fun fact', other: 'erics other'});
+    const farhan = await users.addUser('Farhan', 'Shaik', 'spotifyUser104@gmail.com', {description: 'farhans description', funFact: 'farhans fun fact', other: 'farhans other'});
     
     const cindy_id = cindy._id.toString();
     const jacob_id = jacob._id.toString();
@@ -30,8 +30,11 @@ async function main() {
     console.log("---------- getUserById(id): ----------");
     console.log(await users.getUserById(cindy_id));
 
+    console.log("---------- getUserByEmail(userEmail): ----------");
+    console.log(await users.getUserByEmail(cindy.email));
+
     console.log("---------- addUser(first, last, spotifyUsername, bio) ----------");
-    const adrian = await users.addUser('Adrian', 'Gnomes', 'spotifyUser105', {description: 'adrians description', funFact: 'adrians fun fact', other: 'adrians other'});
+    const adrian = await users.addUser('Adrian', 'Gnomes', 'spotifyUser105@gmail.com', {description: 'adrians description', funFact: 'adrians fun fact', other: 'adrians other'});
     console.log(adrian);
 
     console.log("---------- removeUser(id) ----------");
@@ -41,6 +44,8 @@ async function main() {
     const cindyUpdate = {
         firstName: 'Cindy', 
         lastName: 'Zhang', 
+        email: 'senpaicy@gmail.com',
+        spotifyUsername: 'senpaicy',
         bio: {
             description: '5.4 big asian gorilla.', 
             funFact: 'cindy plays valorant a little too much.', 

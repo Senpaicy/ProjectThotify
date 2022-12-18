@@ -1,38 +1,59 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+.App-Header {
+  cursor: pointer;
+  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App-body {
+  height: 100%;
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* Nav Link */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 30vh;
+li, a, button {
+font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #edf0f1;
+  text-decoration: none;
+} 
+
+header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 30px 10%;
 }
 
-.App-link {
-  color: #61dafb;
+.App-Header {
+  background-color: #24252a;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Nav-Links {
+  list-style: none;
 }
+
+.Nav-Links li {
+  display: inline-block;
+  padding: 0px 20px;
+}
+
+.Nav-Links li a {
+  transition: all 0.3s ease 0s;
+}
+
+.Nav-Links li a:hover {
+  color: rgba(105, 199, 121, 1)
+}
+
+button {
+  color: black;
+  padding: 16px 16px;
+  transition: all 0.3 ease 0s
+}
+
+button:hover {
+  background-color: rgba(94, 165, 106, 1);
+}
+
