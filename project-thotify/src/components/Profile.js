@@ -24,12 +24,24 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   //reference from https://www.youtube.com/watch?v=bhkg2godRDc
   useEffect(() => {
+    
     const getTopArtists = async () => {
-      // spotifyApi.getMyTopTracks().then(
-      // async function (data) {
-      // let topTracks = data.body.items;
-      // let topTrackNames = topTracks.map((track) => {return track.name});
-      // );
+      
+      let topTrackNames;
+      spotifyApi.getMyTopTracks().then(
+      async function (data) {
+        let topTracks = data.body.items;
+        console.log("top tracks:", topTracks);
+        topTrackNames = topTracks.map((track) => {
+          if (track.artists[0]){
+            return track.name + " by " + track.artists[0].name;
+          }else{
+            return track.name;
+          }
+        });
+        console.log("top track names:", topTrackNames);
+      }
+      );
       spotifyApi.getMyTopArtists().then(
         async function (data) {
           let topArtists = data.body.items;
@@ -48,7 +60,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             rejects: currentUserFromDB.rejects,
             prospectiveMatches: currentUserFromDB.prospectiveMatches,
             topArtists: topArtistNames,
-            topTracks: currentUserFromDB.topTracks,
+            topTracks: topTrackNames,
           };
           const artistData = await axios.post(
             "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
