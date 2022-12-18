@@ -27,21 +27,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     
     const getTopArtists = async () => {
       
-      let topTrackNames;
-      spotifyApi.getMyTopTracks().then(
-      async function (data) {
-        let topTracks = data.body.items;
-        console.log("top tracks:", topTracks);
-        topTrackNames = topTracks.map((track) => {
-          if (track.artists[0]){
-            return track.name + " by " + track.artists[0].name;
-          }else{
-            return track.name;
-          }
-        });
-        console.log("top track names:", topTrackNames);
-      }
-      );
+      
       spotifyApi.getMyTopArtists().then(
         async function (data) {
           let topArtists = data.body.items;
@@ -49,7 +35,20 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           let topArtistNames = topArtists.map((artist) => {
             return artist.name;
           });
-          console.log("CurrentUSerFromDB: ", currentUserFromDB);
+          let topTrackNames;
+          spotifyApi.getMyTopTracks().then(
+          async function (data) {
+            let topTracks = data.body.items;
+            console.log("top tracks:", topTracks);
+            topTrackNames = topTracks.map((track) => {
+              if (track.artists[0]){
+                return track.name + " by " + track.artists[0].name;
+              }else{
+                return track.name;
+              }
+            });
+            console.log("top track names:", topTrackNames);
+            console.log("CurrentUSerFromDB: ", currentUserFromDB);
           let userUpdateInfo = {
             firstName: currentUserFromDB.firstName,
             lastName: currentUserFromDB.lastName,
@@ -66,6 +65,11 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
             { updatedUser: userUpdateInfo }
           );
+          setCurrentUserFromDB(userUpdateInfo);
+
+          }
+          );
+          
         },
         async function (err) {
           console.log("Something went wrong!", err);
@@ -137,7 +141,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
       }
     }
     fetchData();
-  }, []);
+  }, [currentUserFromDB]);
 
   const Bio = () => {
     return (
@@ -166,19 +170,14 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const ConnectToSpotifyButton = () => {
     return (
       <button>
-        {" "}
         <a href="http://localhost:8888/spotify/login">
-          Connect Your Spotify Account
+          {userData.topTracks.length > 0 ? "Refresh Your Spotify Info" : "Connect Your Spotify Account" }
         </a>
       </button>
     );
   };
 
-  if (userData.topTracks.length > 0) {
-    connectSpotify = (
-      <a href="http://localhost:8888/spotify/login">Update Your Spotify Data</a>
-    );
-  }
+  
 
   const TopArtists = () => {
     return (
