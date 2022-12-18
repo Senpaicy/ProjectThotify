@@ -19,6 +19,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/email/", async (req, res) => {
+  try {
+    req.body.email = errorChecking.checkString(req.body.email, "URL Email Param", true);
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    let user = await userFunctions.getUserByEmail(req.body.email);
+    res.json(user);
+  } catch (e) {
+    res.status(404).json({ error: "User Not Found." });
+  }
+});
+
 router.post("/create-user-profile", async (req, res) => {
   const userSignUpInfo = req.body;
 
@@ -82,8 +97,109 @@ router.post("/create-user-profile", async (req, res) => {
   }
 });
 
-router.post("/add-spotify-credentials", async (req, res) => {
-  
+router.post("/update-user/:id", async (req, res) => {
+  const updatedUserInfo = req.body;
+
+  try {
+    req.params.id = errorChecking.checkId(req.params.id, "URL ID Param");
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    updatedUserInfo.firstName = errorChecking.checkString(
+      updatedUserInfo.firstName,
+      "First Name",
+      false
+    );
+    updatedUserInfo.lastName = errorChecking.checkString(
+      updatedUserInfo.lastName,
+      "Last Name",
+      true
+    );
+    updatedUserInfo.email = errorChecking.checkString(
+      updatedUserInfo.email,
+      "Email",
+      true
+    );
+    updatedUserInfo.spotifyUsername = errorChecking.checkString(
+      updatedUserInfo.spotifyUsername,
+      "Spotify Username",
+      true
+    );
+    updatedUserInfo.description = errorChecking.checkString(
+      updatedUserInfo.description,
+      "Description",
+      true
+    );
+    updatedUserInfo.funFact = errorChecking.checkString(
+      updatedUserInfo.funFact,
+      "Fun Fact",
+      true
+    );
+    updatedUserInfo.other = errorChecking.checkString(
+      updatedUserInfo.other,
+      "Other",
+      true
+    );
+    updatedUserInfo.matches = errorChecking.checkArray(
+      updatedUserInfo.matches,
+      "Matches",
+      "string",
+      true
+    );
+    updatedUserInfo.rejects = errorChecking.checkArray(
+      updatedUserInfo.rejects,
+      "Rejects",
+      "string",
+      true
+    );
+    updatedUserInfo.prospectiveMatches = errorChecking.checkArray(
+      updatedUserInfo.prospectiveMatches,
+      "Prospective Matches",
+      "string",
+      true
+    );
+    updatedUserInfo.topArtists = errorChecking.checkArray(
+      updatedUserInfo.topArtists,
+      "Top Artists",
+      "string",
+      true
+    );
+    updatedUserInfo.topTracks = errorChecking.checkArray(
+      updatedUserInfo.topTracks,
+      "Top Tracks",
+      "string",
+      true
+    );
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  };
+
+  try {
+    const updateUserData = {
+      firstName: userSignUpInfo.firstName,
+      lastName: userSignUpInfo.lastName,
+      email: userSignUpInfo.email,
+      bio: {
+        description: userSignUpInfo.description,
+        funFact: userSignUpInfo.funFact,
+        other: userSignUpInfo.other,
+      },
+      matches: userSignUpInfo.matches,
+      rejects: userSignUpInfo.rejects,
+      prospectiveMatches: userSignUpInfo.prospectiveMatches,
+      topArtists: userSignUpInfo.topArtists,
+      topTracks: userSignUpInfo.topTracks,
+    };
+
+    const updatingUser = await userFunctions.updateUser(req.params.id, updateUserData);
+
+    res.json(updatingUser);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+
 });
 
 module.exports = router;

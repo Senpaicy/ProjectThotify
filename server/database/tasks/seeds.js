@@ -30,6 +30,9 @@ async function main() {
     console.log("---------- getUserById(id): ----------");
     console.log(await users.getUserById(cindy_id));
 
+    console.log("---------- getUserByEmail(userEmail): ----------");
+    console.log(await users.getUserByEmail(cindy.email));
+
     console.log("---------- addUser(first, last, spotifyUsername, bio) ----------");
     const adrian = await users.addUser('Adrian', 'Gnomes', 'spotifyUser105@gmail.com', {description: 'adrians description', funFact: 'adrians fun fact', other: 'adrians other'});
     console.log(adrian);

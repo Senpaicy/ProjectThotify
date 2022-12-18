@@ -20,6 +20,14 @@ let exportedMethods = {
     if (!user) throw "User not found";
     return user;
   },
+  async getUserByEmail(userEmail) {
+    userEmail = errorChecking.checkString(userEmail, 'User Email', true);
+
+    const userCollection = await users();
+    const user = await userCollection.findOne({ email: userEmail });
+    if (!user) throw "User not found";
+    return user;
+  },
   async addUser(firstName, lastName, email, bio) {
     firstName = errorChecking.checkString(firstName, "First Name", false);
     lastName = errorChecking.checkString(lastName, "Last Name", false);

@@ -1,13 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&display=swap');
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  background-color: #24252a;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+.App-Header {
+  cursor: pointer;
+  
 }
 
+.App-body {
+  height: 100%;
+  width: 100%;
+}
+
+/* Nav Link */
+
 li, a, button {
-  font-family: "Monserrat", sans-serif;
+font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 16px;
   color: #edf0f1;
@@ -21,50 +26,34 @@ header {
   padding: 30px 10%;
 }
 
-.nav_links {
+.App-Header {
+  background-color: #24252a;
+}
+
+.Nav-Links {
   list-style: none;
 }
 
-.nav_links li {
+.Nav-Links li {
   display: inline-block;
   padding: 0px 20px;
 }
 
-.nav_links li a {
+.Nav-Links li a {
   transition: all 0.3s ease 0s;
 }
 
-.nav_links li a:hover {
-  color: #0088a9
+.Nav-Links li a:hover {
+  color: rgba(105, 199, 121, 1)
 }
 
 button {
-  padding: 9px 25px;
-  background-color: rgba(105, 199, 121, 1);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
+  color: black;
+  padding: 16px 16px;
   transition: all 0.3 ease 0s
 }
 
 button:hover {
-  background-color: rgba(105, 199, 121, 0.8);
+  background-color: rgba(94, 165, 106, 1);
 }
-
-.App {
-  text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-
 
