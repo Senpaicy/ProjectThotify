@@ -87,37 +87,15 @@ function App() {
           <header className="App-header">
             <h1 className="App-title">Thotify</h1>
             <nav>
-              <NavLink className="navlink" to="/">
-                Home
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/profile/0">
-                {/*Need to change link above to logged in user's profile, or redirect to login*/}
-                My Profile
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/my-matches">
-                My Matches
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/message/">
-                Message Test
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/login">
-                {/*Need to change link above to logged in user's profile, or redirect to login*/}
-                Login
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/signup">
-                {/*Need to change link above to logged in user's profile, or redirect to login*/}
-                Signup
-              </NavLink>
-              |
-              <NavLink className="navlink" to="/test">
-                {/*Need to change link above to logged in user's profile, or redirect to login*/}
-                Test
-              </NavLink>
+              <ul className="nav__links">
+                <li><a className="navlink"><NavLink to="/">Home</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/profile/0">My Profile</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/my-matches">My Matches</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/message/">Message Test</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/login">Login</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/signup">Signup</NavLink></a></li>
+                <li><a className="navlink"><NavLink to="/test"><button>Test</button></NavLink></a></li>
+              </ul>
             </nav>
           </header>
           <div className="App-body">
@@ -127,13 +105,11 @@ function App() {
               <Route path="/profile/:id" element={<Profile />} />
               <Route exact path="/my-matches/" element={<Matches />} />
               <Route path="/message/" element={<Message />} />
-              {/* login and signup both need error checking */}
               <Route path="/login/" element={<Login />} />
               <Route path="/signup/" element={<Signup />} />
-              <Route
-                path="/test/"
+              <Route 
+                path="/test/" 
                 element={
-                  //use this to protect routes
                   <ProtectedRoute>
                     <TestComponent />
                   </ProtectedRoute>

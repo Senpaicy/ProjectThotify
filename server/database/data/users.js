@@ -82,7 +82,7 @@ let exportedMethods = {
     updatedUser.email = errorChecking.checkString(
       updatedUser.email,
       "email",
-      false
+      true
     );
     updatedUser.bio.description = errorChecking.checkString(
       updatedUser.bio.description,
