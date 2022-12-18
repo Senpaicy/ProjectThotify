@@ -30,6 +30,17 @@ h1 {
     color: #fff;
 }
 
+h2 { 
+    font-size: 2.25rem; 
+    font-weight: 700; 
+    margin-bottom: 10px; 
+    text-align: center; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    color: #fff;
+
+}
+
 div {
   color: #fff;
 }
@@ -38,8 +49,15 @@ div {
     width: 200px; 
     height: 200px; 
     border-radius: 50%; 
-    margin-bottom: 20px; 
     border: 5px solid #fff;
     background: pink;
+}
+
+.row1 { 
+  display: flex; 
+  flex-flow: row wrap; 
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 

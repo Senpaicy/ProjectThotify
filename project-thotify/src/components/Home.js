@@ -1,5 +1,3 @@
-
-
 function Home() {
   return (
     <div>

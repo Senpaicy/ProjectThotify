@@ -45,7 +45,7 @@ function Profile({currentUserFromDB, setCurrentUserFromDB}) {
           rejects: currentUserFromDB.rejects,
           prospectiveMatches: currentUserFromDB.prospectiveMatches,
           topArtists: topArtistNames,
-          topTracks: updatedUser.topTracks,
+          topTracks: currentUserFromDB.topTracks
         };
         const artistData = await axios.post("http://localhost:8888/users/update-user/"+ id , {updatedUser: userUpdateInfo});
       },
@@ -63,7 +63,7 @@ function Profile({currentUserFromDB, setCurrentUserFromDB}) {
     setSpotifyToken(spotifyToken);
     spotifyApi.setAccessToken(spotifyToken);
     console.log("calling top artists");
-    // getTopArtists();
+    getTopArtists();
     console.log("done calling");
     console.log(`This is the spotify token: ${spotifyToken}`);
     spotifyApi.getMe().then((user) => {
@@ -124,19 +124,19 @@ function Profile({currentUserFromDB, setCurrentUserFromDB}) {
 
   const Bio = () => { 
     return (<div>
-      <h1>
+      <h2>
         Description:
-      </h1>
+      </h2>
       <div>  {userData.bio.description}</div>
 
-      <h1>
+      <h2>
         Fun Fact:
-      </h1>
+      </h2>
       <div> {userData.bio.funFact}</div>
 
-      <h1>
+      <h2>
         Other: 
-      </h1>
+      </h2>
       <div>
         Other: {userData.bio.other}
       </div>
@@ -181,7 +181,7 @@ function Profile({currentUserFromDB, setCurrentUserFromDB}) {
   }
 
   const Picture = () => { 
-    return <div name="pfp">INSERT PICTURE HERE</div>
+    return (<div name="pfp"> picture here </div>);
   }
 
   

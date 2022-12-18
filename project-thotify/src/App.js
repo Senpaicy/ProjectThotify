@@ -33,6 +33,19 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [currentUserFromDB, setCurrentUserFromDB] = useState({});
+
+  console.log(window.localStorage.getItem('currentUserFromDB'));
+
+  useEffect(() => {
+    const data = window.localStorage.getItem('currentUserFromDB');
+    if (data !== {} )setCurrentUserFromDB(JSON.parse(data));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('currentUserFromDB', JSON.stringify(currentUserFromDB))
+  }, [currentUserFromDB]);
+
+
   // const [spotifyToken, setSpotifyToken] = useState("");
   // const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
 
