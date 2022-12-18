@@ -49,7 +49,7 @@ router.get("/login", function (req, res) {
   );
 });
 
-router.get("/callback", function (req, res) {
+router.get("/callback/", function (req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -59,7 +59,7 @@ router.get("/callback", function (req, res) {
   console.log(`state: ${state}, storedState: ${storedState}`);
   if (state === null || state !== storedState) {
     res.redirect(
-      "http://localhost:3000/#" +
+      "http://localhost:3000/myprofile/#" +
         querystring.stringify({
           error: "state_mismatch",
         })
@@ -100,7 +100,7 @@ router.get("/callback", function (req, res) {
         // we can also pass the token to the browser to make requests from there
         console.log("triggering in callback");
         res.redirect(
-          "http://localhost:3000/#" +
+          "http://localhost:3000/myprofile/#" +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token,
@@ -109,7 +109,7 @@ router.get("/callback", function (req, res) {
       } else {
         console.log("triggering in callback else");
         res.redirect(
-          "http://localhost:3000/#" +
+          "http://localhost:3000/myprofile/#" +
             querystring.stringify({
               error: "invalid_token",
             })

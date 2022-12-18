@@ -32,19 +32,21 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // };
 
 function App() {
-  const [currentUserFromDB, setCurrentUserFromDB] = useState({});
+  const [currentUserFromDB, setCurrentUserFromDB] = useState();
 
-  console.log(window.localStorage.getItem('currentUserFromDB'));
+  console.log(window.localStorage.getItem("currentUserFromDB"));
 
   useEffect(() => {
-    const data = window.localStorage.getItem('currentUserFromDB');
-    if (data !== {} )setCurrentUserFromDB(JSON.parse(data));
+    const data = window.localStorage.getItem("currentUserFromDB");
+    if (data !== "undefined") setCurrentUserFromDB(JSON.parse(data));
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('currentUserFromDB', JSON.stringify(currentUserFromDB))
+    window.localStorage.setItem(
+      "currentUserFromDB",
+      JSON.stringify(currentUserFromDB)
+    );
   }, [currentUserFromDB]);
-
 
   // const [spotifyToken, setSpotifyToken] = useState("");
   // const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
@@ -96,50 +98,91 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        
-          <header className="App-Header">
-            <NavLink to="/"><h1 className="App-Title">Thotify</h1></NavLink>
-            <nav>
-              <ul className="Nav-Links">
-                <li><a className="Nav-Link"><NavLink to="/">Home</NavLink></a></li>
-                <li><a className="Nav-Link"><NavLink to={`/profile/${currentUserFromDB._id}`}>My Profile</NavLink></a></li>
-                <li><a className="Nav-Link"><NavLink to="/my-matches">My Matches</NavLink></a></li>
-                <li><a className="Nav-Link"><NavLink to="/message/">Message Test</NavLink></a></li>
-                <li><a className="Nav-Link"><NavLink to="/login">Login</NavLink></a></li>
-                <li><a className="Nav-Link"><NavLink to="/signup">Signup</NavLink></a></li>
-              </ul>
-            </nav>
-            <a className="Nav-Link"><NavLink to="/test"><button>Test</button></NavLink></a>
-        </header>
-        
-          <div className="App-body">
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/home" element={<Home />} />
-              <Route 
-                path="/profile/:id" 
-                element={
-                  <ProtectedRoute>
-                    <Profile currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} />
-                  </ProtectedRoute>
-                }
-              />
-              <Route exact path="/my-matches/" element={<Matches />} />
-              <Route path="/message/" element={<Message />} />
-              <Route path="/login/" element={<Login currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB}/>} />
-              <Route path="/signup/" element={<Signup />} />
-              <Route 
-                path="/test/" 
-                element={
-                  <ProtectedRoute>
-                    <TestComponent />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
+        <header className="App-Header">
+          <NavLink to="/">
+            <h1 className="App-Title">Thotify</h1>
+          </NavLink>
+          <nav>
+            <ul className="Nav-Links">
+              <li>
+                <a className="Nav-Link">
+                  <NavLink to="/">Home</NavLink>
+                </a>
+              </li>
+              {currentUserFromDB && (
+                <li>
+                  <a className="Nav-Link">
+                    <NavLink to={`/myprofile/`}>My Profile</NavLink>
+                  </a>
+                </li>
+              )}
 
-        
+              <li>
+                <a className="Nav-Link">
+                  <NavLink to="/my-matches">My Matches</NavLink>
+                </a>
+              </li>
+              <li>
+                <a className="Nav-Link">
+                  <NavLink to="/message/">Message Test</NavLink>
+                </a>
+              </li>
+              <li>
+                <a className="Nav-Link">
+                  <NavLink to="/login">Login</NavLink>
+                </a>
+              </li>
+              <li>
+                <a className="Nav-Link">
+                  <NavLink to="/signup">Signup</NavLink>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <a className="Nav-Link">
+            <NavLink to="/test">
+              <button>Test</button>
+            </NavLink>
+          </a>
+        </header>
+
+        <div className="App-body">
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/home" element={<Home />} />
+            <Route
+              path="/myprofile/"
+              element={
+                <ProtectedRoute>
+                  <Profile
+                    currentUserFromDB={currentUserFromDB}
+                    setCurrentUserFromDB={setCurrentUserFromDB}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route exact path="/my-matches/" element={<Matches />} />
+            <Route path="/message/" element={<Message />} />
+            <Route
+              path="/login/"
+              element={
+                <Login
+                  currentUserFromDB={currentUserFromDB}
+                  setCurrentUserFromDB={setCurrentUserFromDB}
+                />
+              }
+            />
+            <Route path="/signup/" element={<Signup />} />
+            <Route
+              path="/test/"
+              element={
+                <ProtectedRoute>
+                  <TestComponent />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </div>
       </AuthProvider>
     </Router>
   );
