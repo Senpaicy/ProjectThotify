@@ -21,7 +21,11 @@ router.get("/:id", async (req, res) => {
 
 router.post("/email/", async (req, res) => {
   try {
-    req.body.email = errorChecking.checkString(req.body.email, "URL Email Param", true);
+    req.body.email = errorChecking.checkString(
+      req.body.email,
+      "URL Email Param",
+      true
+    );
   } catch (e) {
     return res.status(400).json({ error: e });
   }
@@ -98,8 +102,9 @@ router.post("/create-user-profile", async (req, res) => {
 });
 
 router.post("/update-user/:id", async (req, res) => {
-  const updatedUserInfo = req.body;
-
+  const updatedUserInfo = req.body.updatedUser;
+  console.log("----------Updated User Info --------");
+  console.log(updatedUserInfo);
   try {
     req.params.id = errorChecking.checkId(req.params.id, "URL ID Param");
   } catch (e) {
@@ -127,18 +132,18 @@ router.post("/update-user/:id", async (req, res) => {
       "Spotify Username",
       true
     );
-    updatedUserInfo.description = errorChecking.checkString(
-      updatedUserInfo.description,
+    updatedUserInfo.bio.description = errorChecking.checkString(
+      updatedUserInfo.bio.description,
       "Description",
       true
     );
-    updatedUserInfo.funFact = errorChecking.checkString(
-      updatedUserInfo.funFact,
+    updatedUserInfo.bio.funFact = errorChecking.checkString(
+      updatedUserInfo.bio.funFact,
       "Fun Fact",
       true
     );
-    updatedUserInfo.other = errorChecking.checkString(
-      updatedUserInfo.other,
+    updatedUserInfo.bio.other = errorChecking.checkString(
+      updatedUserInfo.bio.other,
       "Other",
       true
     );
@@ -173,33 +178,38 @@ router.post("/update-user/:id", async (req, res) => {
       true
     );
   } catch (e) {
+    console.log(e);
     return res.status(400).json({ error: e });
-  };
+  }
 
   try {
     const updateUserData = {
-      firstName: userSignUpInfo.firstName,
-      lastName: userSignUpInfo.lastName,
-      email: userSignUpInfo.email,
+      firstName: updatedUserInfo.firstName,
+      lastName: updatedUserInfo.lastName,
+      email: updatedUserInfo.email,
+      spotifyUsername: updatedUserInfo.spotifyUsername,
       bio: {
-        description: userSignUpInfo.description,
-        funFact: userSignUpInfo.funFact,
-        other: userSignUpInfo.other,
+        description: updatedUserInfo.bio.description,
+        funFact: updatedUserInfo.bio.funFact,
+        other: updatedUserInfo.bio.other,
       },
-      matches: userSignUpInfo.matches,
-      rejects: userSignUpInfo.rejects,
-      prospectiveMatches: userSignUpInfo.prospectiveMatches,
-      topArtists: userSignUpInfo.topArtists,
-      topTracks: userSignUpInfo.topTracks,
+      matches: updatedUserInfo.matches,
+      rejects: updatedUserInfo.rejects,
+      prospectiveMatches: updatedUserInfo.prospectiveMatches,
+      topArtists: updatedUserInfo.topArtists,
+      topTracks: updatedUserInfo.topTracks,
     };
 
-    const updatingUser = await userFunctions.updateUser(req.params.id, updateUserData);
+    const updatingUser = await userFunctions.updateUser(
+      req.params.id,
+      updateUserData
+    );
 
     res.json(updatingUser);
   } catch (e) {
+    console.log(e);
     res.status(500).json({ error: e });
   }
-
 });
 
 module.exports = router;

@@ -34,7 +34,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const [currentUserFromDB, setCurrentUserFromDB] = useState();
 
-  console.log(window.localStorage.getItem("currentUserFromDB"));
+  console.log(
+    "LOCAL STORAGE:",
+    window.localStorage.getItem("currentUserFromDB")
+  );
 
   useEffect(() => {
     const data = window.localStorage.getItem("currentUserFromDB");

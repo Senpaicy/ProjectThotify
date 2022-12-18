@@ -37,12 +37,13 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           let topArtistNames = topArtists.map((artist) => {
             return artist.name;
           });
+          console.log("CurrentUSerFromDB: ", currentUserFromDB);
           let userUpdateInfo = {
             firstName: currentUserFromDB.firstName,
             lastName: currentUserFromDB.lastName,
             bio: currentUserFromDB.bio,
             email: currentUserFromDB.email,
-            spotifyUsername: currentUserFromDB.spotifyUsername,
+            spotifyUsername: "hardcodedusername",
             matches: currentUserFromDB.matches,
             rejects: currentUserFromDB.rejects,
             prospectiveMatches: currentUserFromDB.prospectiveMatches,
@@ -50,7 +51,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             topTracks: currentUserFromDB.topTracks,
           };
           const artistData = await axios.post(
-            "http://localhost:8888/users/update-user/" + id,
+            "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
             { updatedUser: userUpdateInfo }
           );
         },
