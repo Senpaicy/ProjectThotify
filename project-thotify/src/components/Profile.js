@@ -201,8 +201,10 @@ function Profile({currentUserFromDB, setCurrentUserFromDB}) {
     } else {
       return (
         <div className="container">
-          <Picture />
-          <div className="name"> {userData.firstName} {userData.lastName} </div>
+          <div className='row1'>
+            <Picture />
+            <div className="name"> {userData.firstName} {userData.lastName} </div>
+          </div>
           <Bio />
           <TopTracks />
           <TopArtists />
