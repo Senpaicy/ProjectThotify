@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './../App.css';
+import "../style/css/Forms.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import "../style/css/Forms.css";
 
-function Matches({currentUserFromDB}) {
+
+function Matches({currentUserFromDB, setCurrentUserFromDB}) {
 
   const [matchData, setMatchData] = useState(undefined);
   const [loading, setLoading] = useState(true);
@@ -14,34 +15,66 @@ function Matches({currentUserFromDB}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axios.get(matchesURL + currentUserFromDB._id);
+        // const { data } = await axios.get(matchesURL + currentUserFromDB._id);
         //should be in the form of:
         //[{_id: 123141414, name: 'John', chatroom:'123', img}, ....]
-        setMatchData(data.matches);
+        setMatchData(currentUserFromDB.matches);
         setLoading(false);
-        console.log(data.matches);
+        console.log(currentUserFromDB.matches);
       } catch (e) {
         console.log(e);
         setErrorMsg(e.message);
       }
     }
     fetchData();
-  }, []);
+  }, [currentUserFromDB]);
+
+  async function unmatch(person){
+    console.log("person", person);
+    console.log("unmatched ", person.name);
+    let userUpdateInfo = {
+      firstName: currentUserFromDB.firstName,
+      lastName: currentUserFromDB.lastName,
+      bio: currentUserFromDB.bio,
+      email: currentUserFromDB.email,
+      spotifyUsername: currentUserFromDB.spotifyUsername,
+      matches: currentUserFromDB.matches.filter((user) => user._id !== person._id),
+      rejects: currentUserFromDB.rejects,
+      prospectiveMatches: currentUserFromDB.prospectiveMatches,
+      topArtists: currentUserFromDB.topArtists,
+      topTracks: currentUserFromDB.topTracks,
+    };
+
+    const newMatchData = await axios.post(
+      "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
+      { updatedUser: userUpdateInfo }
+    );
+    
+    setCurrentUserFromDB(newMatchData.data);
+    
+  }
 
   const buildListItem = (match) => {
     return (
-      <div key={match.id}>
-        <Link to={`/Profile/${match.id}`}>
-          {match.profile.img}
-        </Link>
-        {match.name}
-        <Link to={`/Chat/${match.chatId}`}>
-          Chat
-        </Link>
-        <Link to={`/Matches/Unmatch/${match.id}`}>
-          Unmatch
-          {/* Fix this later */}
-        </Link>
+      <div key={match._id}>
+        <div className='Center-Container'>
+          <div className='Center'>
+            <Link to={`/Profile/${match._id}`}>{match.img}</Link>
+            <h1>{match.name}</h1>
+            <button>
+              <Link to={`/message/${match.chatroom}`}>Chat</Link>
+            </button>
+            <button
+              className='button'
+              onClick={() =>
+                unmatch(match)
+              }
+            >
+              Unmatch
+            </button>
+          </div>
+          
+        </div>       
       </div>
     );
   };
