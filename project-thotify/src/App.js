@@ -115,7 +115,7 @@ function App() {
               {currentUserFromDB && (
                 <li>
                   <a className="Nav-Link">
-                    <NavLink to={`/myprofile/`}>My Profile</NavLink>
+                    <NavLink to={`/my-profile/`}>My Profile</NavLink>
                   </a>
                 </li>
               )}
@@ -154,7 +154,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
             <Route
-              path="/myprofile/"
+              path="/my-profile/"
               element={
                 <ProtectedRoute>
                   <Profile
