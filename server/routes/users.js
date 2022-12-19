@@ -1,8 +1,18 @@
 const express = require("express");
 const userFunctions = require("../database/data/users");
+const chatFunctions = require("../database/data/chatrooms");
 const router = express.Router();
 
 const errorChecking = require("../database/errorChecking/errorChecking");
+
+router.get("/", async (req, res) => {
+  try {
+    let users = await userFunctions.getAllUsers();
+    res.json(users);
+  } catch (e) {
+    res.status(404).json({ error: "User Not Found." });
+  }
+});
 
 router.get("/:id", async (req, res) => {
   try {
@@ -14,6 +24,22 @@ router.get("/:id", async (req, res) => {
   try {
     let user = await userFunctions.getUserById(req.params.id);
     res.json(user);
+  } catch (e) {
+    res.status(404).json({ error: "User Not Found." });
+  }
+});
+
+router.get("/:id/chat/:chat_id", async (req, res) => {
+  try {
+    req.params.id = errorChecking.checkId(req.params.id, "URL Original User ID Param");
+    req.params.chat_id = errorChecking.checkId(req.params.chat_id, 'URL Otheruser ID Param');
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    let chat = await chatFunctions.getChatById(req.params.chat_id);
+    res.json(chat);
   } catch (e) {
     res.status(404).json({ error: "User Not Found." });
   }

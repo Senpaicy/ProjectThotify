@@ -1,24 +1,31 @@
-import React, {useEffect, useRef, useState} from 'react';
-// import {useLocation} from 'react-router-dom';
+import React, { 
+  useEffect, 
+  useRef, 
+  useState
+} from 'react';
+
 import io from 'socket.io-client';
 import './../App.css';
 
-function Message() {
+function Message({currentUserFromDB, setCurrentUserFromDB}) {
   // chat history, name, room, and recipient are passed in from the link on the matches page
   // const location = useLocation();
   // const [state, setState] = useState(location.state);
   // temporary state for testing purposes
   // currently has zero protection against unauthorized users joining the chat
-  const [state, setState] = useState({message: '', name: '', room: 'A', recipient: 'Frank', history:[{name: "Bob", message: "Hi"},{name: "Frank", message: "Hello"}]});
+  const [state, setState] = useState({message: '', name: currentUserFromDB.firstName, room: 'A', recipient: 'Frank', history:[{name: currentUserFromDB.firstName, message: "Hi"},{name: currentUserFromDB.lastName, message: "Hello"}]});
   const [chat, setChat] = useState([]);
 
+  console.log("CUFDB, ", currentUserFromDB);
   const socketRef = useRef();
 
   useEffect(() => {
+    console.log("CUFDB 2, ", currentUserFromDB);
+    console.log("State, ", state);
     socketRef.current = io('/');
     // setState({name: document.getElementById('username_input').value, room: document.getElementById('room_input').value});
-    socketRef.current.emit('create_room', "Bob", "A");
-    // console.log("Room Created");
+    socketRef.current.emit('create_room', state.name, "A");
+    console.log("Room Created");
     return () => {
       socketRef.current.disconnect();
     };

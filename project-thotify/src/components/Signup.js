@@ -4,7 +4,7 @@ import {
   NavLink,
   BrowserRouter as Router,
   Route,
-  Routes,
+  Routes, useNavigate
 } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
@@ -19,7 +19,7 @@ function Signup() {
   const [other, setOther] = useState("");
 
   const { signup } = useAuth();
-
+  let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -37,6 +37,7 @@ function Signup() {
         }
       );
       console.log("am i not erroring");
+      navigate("/login");
     } catch (error) {
       console.log("am i erroring");
       console.log(error.message);

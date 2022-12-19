@@ -33,9 +33,9 @@ module.exports = {
   },
   checkArray(arr, variableName, typeOfArray, allowEmptyArray) {
     if (!arr) throw `Error: You must provide a ${variableName}.`;
-    if (!Array.isArray(arr)) throw `Error: ${varName} must be an array.`;
+    if (!Array.isArray(arr)) throw `Error: ${variableName} must be an array.`;
     if (!allowEmptyArray && arr === [])
-      throw `Error: ${varName} cannot be empty.`;
+      throw `Error: ${variableName} cannot be empty.`;
 
     // Loops through array and checks if array is of the correct type.
     for (i in arr) {

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../App.css";
 import "../style/css/Forms.css"
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 
 function Login({currentUserFromDB, setCurrentUserFromDB}) {
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
@@ -19,6 +20,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
       setCurrentUserFromDB(data);
       console.log("Current user from db by state", currentUserFromDB);
       console.log(user);
+      navigate("/my-profile");
     } catch (error) {
       console.log(error.message);
     }

@@ -29,12 +29,22 @@ const exportedMethods = {
 
         return chat.users;
     },
+    async addMessageToChat(chat_id, message) {
+        chat_id = errorChecking.checkId(chat_id, 'Chat ID');
+        message.sender = errorChecking.checkString(message.sender, 'Message Sender', true);
+        message.content = errorChecking.checkString(message.content, 'Message Content', true);
+        
+        const newChatHistory = this.getChatHistory(chat_id);
+        newChatHistory.push(message);
+        this.updateChat(chat_id, newChatHistory);
+        return null;
+    },
     async getChatHistory(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
 
         const chat = await this.getChatById(chat_id);
-        if (!chat.history) throw 'Error: Users does not exist for this chat in the system.';
-        if (chat.history === []) throw 'Error: There are no users in this chat.';
+        if (!chat.history) throw 'Error: Message History does not exist for this chat in the system.';
+        if (chat.history === []) throw 'Error: There are no messsages in this chat.';
 
         return chat.history;
     },

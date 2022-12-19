@@ -4,6 +4,7 @@ import "../style/css/Profile.css";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import SpotifyWebApi from "spotify-web-api-node";
+import { useAuth } from "../contexts/AuthContext";
 const spotifyApi = new SpotifyWebApi();
 
 //reference from https://www.youtube.com/watch?v=bhkg2godRDc
@@ -21,61 +22,120 @@ const getTokenFromUrl = () => {
 function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const [spotifyToken, setSpotifyToken] = useState("");
   const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
-
+  const {signOut} = useAuth();
   //reference from https://www.youtube.com/watch?v=bhkg2godRDc
   useEffect(() => {
     
     const getTopArtists = async () => {
-      
-      
-      spotifyApi.getMyTopArtists().then(
-        async function (data) {
-          let topArtists = data.body.items;
-          console.log("Top Artists: ", topArtists);
-          let topArtistNames = topArtists.map((artist) => {
-            return artist.name;
-          });
-          let topTrackNames;
-          spotifyApi.getMyTopTracks().then(
-          async function (data) {
-            let topTracks = data.body.items;
-            console.log("top tracks:", topTracks);
-            topTrackNames = topTracks.map((track) => {
-              if (track.artists[0]){
-                return track.name + " by " + track.artists[0].name;
-              }else{
-                return track.name;
-              }
-            });
-            console.log("top track names:", topTrackNames);
-            console.log("CurrentUSerFromDB: ", currentUserFromDB);
-          let userUpdateInfo = {
-            firstName: currentUserFromDB.firstName,
-            lastName: currentUserFromDB.lastName,
-            bio: currentUserFromDB.bio,
-            email: currentUserFromDB.email,
-            spotifyUsername: "hardcodedusername",
-            matches: currentUserFromDB.matches,
-            rejects: currentUserFromDB.rejects,
-            prospectiveMatches: currentUserFromDB.prospectiveMatches,
-            topArtists: topArtistNames,
-            topTracks: topTrackNames,
-          };
-          const artistData = await axios.post(
-            "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
-            { updatedUser: userUpdateInfo }
-          );
-          setCurrentUserFromDB(userUpdateInfo);
+      let userName;
+      let topArtistNames;
+      let topTrackNames;
 
-          }
-          );
-          
-        },
-        async function (err) {
+      spotifyApi.getMe().then(
+        async function (data) {
+          let userName = data.body.id;
+          console.log("Username: ", userName);
+          spotifyApi.getMyTopArtists().then(
+            async function (data) {
+              let topArtists = data.body.items;
+              console.log("Top Artists: ", topArtists);
+              topArtistNames = topArtists.map((artist) => {
+                return artist.name;
+              });
+              spotifyApi.getMyTopTracks().then(
+                async function (data) {
+                  let topTracks = data.body.items;
+                  console.log("top tracks:", topTracks);
+                  topTrackNames = topTracks.map((track) => {
+                    if (track.artists[0]){
+                      return track.name + " by " + track.artists[0].name;
+                    }else{
+                      return track.name;
+                    }
+                  }
+                  );
+                  console.log("top track names:", topTrackNames);
+                  console.log("CurrentUSerFromDB: ", currentUserFromDB);
+                  let userUpdateInfo = {
+                    firstName: currentUserFromDB.firstName,
+                    lastName: currentUserFromDB.lastName,
+                    bio: currentUserFromDB.bio,
+                    email: currentUserFromDB.email,
+                    spotifyUsername: userName,
+                    matches: currentUserFromDB.matches,
+                    rejects: currentUserFromDB.rejects,
+                    prospectiveMatches: currentUserFromDB.prospectiveMatches,
+                    topArtists: topArtistNames,
+                    topTracks: topTrackNames,
+                  };
+                  console.log("userUpdateInfo", userUpdateInfo);
+                  const artistData = await axios.post(
+                    "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
+                    { updatedUser: userUpdateInfo }
+                  );
+                  setCurrentUserFromDB(artistData.data);
+                }, async function (err) {
+                  console.log("Something went wrong!", err);
+                  }
+                );
+            }, async function (err) {
+              console.log("Something went wrong!", err);
+              }
+            );
+        }, async function (err) {
           console.log("Something went wrong!", err);
-        }
+          }
       );
-    };
+      // spotifyApi.getMyTopArtists().then(
+      //   async function (data) {
+      //     let topArtists = data.body.items;
+      //     console.log("Top Artists: ", topArtists);
+      //     topArtistNames = topArtists.map((artist) => {
+      //       return artist.name;
+      //     });
+      //   }, async function (err) {
+      //     console.log("Something went wrong!", err);
+      //     }
+      //   );
+      // spotifyApi.getMyTopTracks().then(
+      //     async function (data) {
+      //       let topTracks = data.body.items;
+      //       console.log("top tracks:", topTracks);
+      //       topTrackNames = topTracks.map((track) => {
+      //         if (track.artists[0]){
+      //           return track.name + " by " + track.artists[0].name;
+      //         }else{
+      //           return track.name;
+      //         }
+      //       });
+      //     }, async function (err) {
+      //       console.log("Something went wrong!", err);
+      //       }
+      //     );
+
+      
+
+        // console.log("top track names:", topTrackNames);
+        // console.log("CurrentUSerFromDB: ", currentUserFromDB);
+        // let userUpdateInfo = {
+        //   firstName: currentUserFromDB.firstName,
+        //   lastName: currentUserFromDB.lastName,
+        //   bio: currentUserFromDB.bio,
+        //   email: currentUserFromDB.email,
+        //   spotifyUsername: userName,
+        //   matches: currentUserFromDB.matches,
+        //   rejects: currentUserFromDB.rejects,
+        //   prospectiveMatches: currentUserFromDB.prospectiveMatches,
+        //   topArtists: topArtistNames,
+        //   topTracks: topTrackNames,
+        // };
+        // console.log("userUpdateInfo", userUpdateInfo);
+        // const artistData = await axios.post(
+        //   "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
+        //   { updatedUser: userUpdateInfo }
+        // );
+        // setCurrentUserFromDB(artistData.data);
+        }
 
     console.log("Here is what we got from url: ", getTokenFromUrl());
     const spotifyToken = getTokenFromUrl().access_token;
@@ -91,18 +151,6 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
       spotifyApi.getMe().then((user) => {
         console.log("user", user);
       });
-      spotifyApi.getMyTopArtists().then(
-        (data) => {
-          console.log("data", data);
-        }
-        // function (data) {
-        //   // let topArtists = data.body.items;
-        //   console.log("Top Artists: ", data);
-        // },
-        // function (err) {
-        //   console.log("Something went wrong!", err);
-        // }
-      );
       setLoggedInToSpotify(true);
     }
   });
@@ -142,6 +190,16 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     }
     fetchData();
   }, [currentUserFromDB]);
+
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    try {
+      await signOut();
+    } catch (e){
+      console.log(e);
+    }
+  }
 
   const Bio = () => {
     return (
@@ -240,6 +298,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           <TopTracks />
           <TopArtists />
           <ConnectToSpotifyButton />
+          <button type="button" onClick={handleSignOut}> Sign Out </button>
         </div>
       );
     }
