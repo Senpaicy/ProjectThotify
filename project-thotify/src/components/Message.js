@@ -54,16 +54,21 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     console.log("State, ", state);
     socketRef.current = io('/');
     // setState({name: document.getElementById('username_input').value, room: document.getElementById('room_input').value});
-    socketRef.current.emit('create_room', state.name, "A");
+    socketRef.current.emit('create_room', state.name, state.room);
     console.log("Room Created");
     return () => {
       socketRef.current.disconnect();
     };
   }, []);
 
+  //THIS DOESN'T WORK
   useEffect(() => {
     socketRef.current.on('message', ({name, message}) => {
-      setChat([...chat, {name, message}]);
+      console.log("NAME", name);
+      console.log("MESSAGE", message);
+      let currentDate = new Date();
+      const timestamp = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+      setChat([...chat, {name, message, timestamp }]);
     });
   }, [chat]);
 
@@ -76,12 +81,15 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
       name: state.name,
       message: msgEle.value,
     }, state.room);
+    console.log("ROOM", state.room);
     e.preventDefault();
     console.log("message", state.message);
+    let currentDate = new Date();
+    const timestamp = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
     const messageInfo = {
       sender: state.name, 
       content: msgEle.value, 
-      timestamp: new Date().toDateString()
+      timestamp: timestamp
     }
     console.log("messageInfo", messageInfo);
     try{
@@ -121,10 +129,10 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
 
   const renderChat = () => {
     console.log("CHAT", chat);
-    return chat.map(({name, message}, index) => (
+    return chat.map(({name, message, timestamp}, index) => (
       <div key={index}>
         <h3>
-          {name}: <span>{message}</span>
+          {timestamp} {name}: <span>{message}</span>
         </h3>
       </div>
     ));
@@ -143,7 +151,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
           </div>
           <form onSubmit={onMessageSubmit}>
             <div>
-              <label for='message'>Type Message Here: </label>
+              <label htmlFor='message'>Type Message Here: </label>
               <input
                  className='Center'
                 name='message'
@@ -155,9 +163,9 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
             <button>Send Message</button>
             <br/><br/>
           </form>
-          <form onSubmit={onRoomLeave}>
+          {/* <form onSubmit={onRoomLeave}>
             <button>Leave Chat</button>
-          </form>
+          </form> */}
         </div>
       )}
 

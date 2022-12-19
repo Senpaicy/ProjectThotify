@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', ({name, message}, room) => {
-    console.log(name, message, socket.id);
+    console.log("MESSAGE SENT", name, message, socket.id, room);
     io.to(room).emit('message', {name, message});
   });
 
