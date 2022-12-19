@@ -12,19 +12,23 @@ import axios from "axios";
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [description, setDescription] = useState("");
   const [funFact, setFunFact] = useState("");
   const [other, setOther] = useState("");
+  const [error, setError] = useState("");
 
   const { signup } = useAuth();
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(passwordConfirmation !== password) {
+        throw("Error: Passwords don't match");
+      }
       console.log("????????");
-      const user = await signup(email, password);
       const userInDatabase = await axios.post(
         "http://localhost:8888/users/create-user-profile",
         {
@@ -36,11 +40,18 @@ function Signup() {
           other: other,
         }
       );
+      const user = await signup(email, password);
       console.log("am i not erroring");
       navigate("/login");
     } catch (error) {
       console.log("am i erroring");
-      console.log(error.message);
+      console.log("Error", error);
+      if(error.response && error.response.data.error){
+      setError(error.response.data.error);
+      }else {
+        setError(error);
+      }
+
     }
   };
 
@@ -99,8 +110,11 @@ function Signup() {
           <div className="Text-Field">
             <input
               type="password"
-              name="password"
+              name="passwordConfirmation"
               placeholder=""
+              onChange={(e) => {
+                setPasswordConfirmation(e.target.value);
+              }}
             />
             <label>Re-enter Password</label>
           </div>
@@ -118,7 +132,7 @@ function Signup() {
           <div className="Text-Field">
             <input
               type="text"
-              name="description"
+              name="funFact"
               placeholder=""
               onChange={(e) => {
                 setFunFact(e.target.value);
@@ -129,7 +143,7 @@ function Signup() {
           <div className="Text-Field">
             <input
               type="text"
-              name="description"
+              name="other"
               placeholder=""
               onChange={(e) => {
                 setOther(e.target.value);
@@ -143,6 +157,7 @@ function Signup() {
             Already a Member? <a><NavLink to="/login">Login</NavLink></a>
           </div>
         </form>
+        {error && <p>{`${error}`}</p>}
       </div>
     </div>
   );

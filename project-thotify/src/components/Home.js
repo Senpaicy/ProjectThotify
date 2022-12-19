@@ -13,6 +13,22 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
   const [errorMsg, setErrorMsg] = useState(undefined);
   const usersURL = "http://localhost:8888/users/";
 
+  const matchingAlgorithm = (personA, personB) => {
+      const personATracksInCommon = personA.topTracks.filter((track) => currentUserFromDB.topTracks.includes(track));
+      const personAArtistsInCommon = personA.topArtists.filter((artist) => currentUserFromDB.topArtists.includes(artist));
+      const personBTracksInCommon = personB.topTracks.filter((track) => currentUserFromDB.topTracks.includes(track));
+      const personBArtistsInCommon = personB.topArtists.filter((artist) => currentUserFromDB.topArtists.includes(artist));
+      const personATotalPoints = personATracksInCommon.length + personAArtistsInCommon.length;
+      const personBTotalPoints = personBTracksInCommon.length + personBArtistsInCommon.length;
+      if (personATotalPoints < personBTotalPoints) {
+        return -1;
+    }
+      if (personATotalPoints > personBTotalPoints) {
+        return 1;
+      }
+      return 0;
+  }
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -23,7 +39,15 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
         data = data.filter((user) => user._id !== currentUserFromDB._id);
         console.log("data ", data);
 
-        setMatchData(data);
+        // setMatchData(data);
+        console.log("unsorted match data", data);
+        let sortedMatchData = Array.from(data);
+        sortedMatchData.sort(matchingAlgorithm);
+        sortedMatchData.reverse()
+        console.log("sorted match data", sortedMatchData);
+        setMatchData(sortedMatchData);
+
+
         console.log("matches ",matchData);
         setLoading(false);
         console.log(data);
@@ -68,6 +92,14 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
       "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
     );
+
+    const createChat = await axios.post(
+      "http://localhost:8888/users/create-chatroom/",
+      { 
+        chatName: chatroom,
+        users: [currentUserFromDB._id, person._id] 
+      }
+    );
     
     setCurrentUserFromDB(newMatchData.data);
 
@@ -77,6 +109,12 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
 
   async function unmatch(person){
     console.log("unmatched ", person.firstName);
+    let chatroom;
+    if (person._id > currentUserFromDB._id){
+      chatroom = person._id + "-" + currentUserFromDB._id;
+    }else{
+      chatroom = currentUserFromDB._id + "-" + person._id;
+    }
     let userUpdateInfo = {
       firstName: currentUserFromDB.firstName,
       lastName: currentUserFromDB.lastName,
@@ -93,6 +131,14 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
     const newMatchData = await axios.post(
       "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
+    );
+
+    console.log("chatroom", chatroom);
+    const deleteChat = await axios.delete(
+      "http://localhost:8888/users/delete-chatroom/",
+      { 
+        data: {chatName: chatroom}
+      }
     );
     
     setCurrentUserFromDB(newMatchData.data);
@@ -129,7 +175,8 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
 
             const tracksInCommon = person.topTracks.filter((track) => currentUserFromDB.topTracks.includes(track));
             const artistsInCommon = person.topArtists.filter((artist) => currentUserFromDB.topArtists.includes(artist));
-
+            
+            
 
 
             return (

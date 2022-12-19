@@ -19,6 +19,14 @@ const exportedMethods = {
         const chat = await chatCollection.findOne({ _id: ObjectId(chat_id) });
         if (!chat) throw "Error: Chatroom is not found.";
         return chat;
+    },async getChatByName(chat_name) {
+        chat_id = errorChecking.checkString(chat_name, 'Chat Name', true);
+
+        const chatCollection = await chats();
+        const chat = await chatCollection.findOne({ chatName: chat_name });
+        // if (!chat) throw "Error: Chatroom is not found.";
+        
+        return chat;
     },
     async getUsersInChat(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
@@ -29,12 +37,15 @@ const exportedMethods = {
 
         return chat.users;
     },
-    async addMessageToChat(chat_id, message) {
-        chat_id = errorChecking.checkId(chat_id, 'Chat ID');
+    async addMessageToChat(chatName, message) {
+        checkName = errorChecking.checkString(chatName, 'Chat Name', true);
         message.sender = errorChecking.checkString(message.sender, 'Message Sender', true);
         message.content = errorChecking.checkString(message.content, 'Message Content', true);
-        
+
+        const chat = await this.getChatByName(chatName);
+        const chat_id = chat._id.toString();
         const newChatHistory = await this.getChatHistory(chat_id);
+
         console.log(newChatHistory);
         newChatHistory.push(message);
 
@@ -51,12 +62,22 @@ const exportedMethods = {
         return chat.history;
     },
     async createChat(chatName, users) {
-        chatName = errorChecking.checkString(chatName, 'Chat Name', false);
+        
+        //chat_id = errorChecking.checkString(chat_id, 'Chat ID', true);
+        chatName = errorChecking.checkString(chatName, 'Chat Name', true);
+        if(await this.getChatByName(chatName)) {
+            return await this.getChatByName(chatName);
+        }
+
+        console.log('attempting to create chatroom');
+
         users = errorChecking.checkArray(users, 'Chatroom Users', 'string', true);
 
         const chatCollection = await chats();
+        console.log(chatCollection);
 
         let newChat = {
+            //chat_id: chat_id,
             chatName: chatName,
             users: users,
             history: []
@@ -64,8 +85,16 @@ const exportedMethods = {
 
         const newInsertInformation = await chatCollection.insertOne(newChat);
         if (newInsertInformation.insertedCount === 0) throw "Insert failed!";
+        let response;
+        try{
+            response = await this.getChatById(newInsertInformation.insertedId.toString());
+            console.log(response);
+        }catch(e){
+            console.log(e);
+            throw e;
+        }
 
-        return await this.getChatById(newInsertInformation.insertedId.toString());
+        return response;
     },
     async deleteChat(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');

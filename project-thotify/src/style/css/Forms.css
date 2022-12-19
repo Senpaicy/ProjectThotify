@@ -25,7 +25,6 @@ body {
 .Center h1 {
     text-align: center;
     padding: 30px 0;
-    color: black;
 }
 
 .Center form {
@@ -36,7 +35,7 @@ body {
 form .Text-Field {
     position: relative;
     margin: 30px 0;
-    border-bottom: 1px solid rgb(126, 126, 126);
+    border-bottom: 1px solid rgb(255, 255, 255);
 }
 
 .Text-Field input {
@@ -57,7 +56,6 @@ form .Text-Field {
     font-size: 16px;
     pointer-events: none;
     transition: .5s;
-    color:rgb(126, 126, 126)
 }
 
 .Text-Field input:focus ~ label,
@@ -87,7 +85,6 @@ button:hover {
     margin: 30px 0;
     text-align: center;
     font-size: 16px;
-    color:rgb(0, 0, 0);
 }
 
 .Signup-Link a {

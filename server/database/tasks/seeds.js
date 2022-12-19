@@ -17,9 +17,9 @@ async function main() {
     const eric_id = eric._id.toString();
     const farhan_id = farhan._id.toString();
 
-    const thotifySeedersChat = await chats.createChat('ThotifySeeders', [cindy_id, jacob_id, eric_id, farhan_id]);
-    const thotifyBackendChat = await chats.createChat('ThotifyBackendChat', [cindy_id, eric_id, farhan_id]);
-    const thotifyFrontendChat = await chats.createChat('ThotifyBackendChat', [cindy_id, jacob_id]);
+    const thotifySeedersChat = await chats.createChat('TID12907182312', 'ThotifySeeders', [cindy_id, jacob_id, eric_id, farhan_id]);
+    const thotifyBackendChat = await chats.createChat('TID9102312893', 'ThotifyBackendChat', [cindy_id, eric_id, farhan_id]);
+    const thotifyFrontendChat = await chats.createChat('TID12389120312', 'ThotifyBackendChat', [cindy_id, jacob_id]);
 
     const thotifySeedersChat_id = thotifySeedersChat._id.toString(); 
 
@@ -86,7 +86,7 @@ async function main() {
 
 
     console.log("---------- createChat(chatName, users)----------");
-    const tempChat = await chats.createChat('TemporaryChat', []);
+    const tempChat = await chats.createChat('temp_chat_id', 'TemporaryChat', []);
     console.log(tempChat);
 
     console.log("---------- deleteChat ----------");

@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-// import SpotifyWebApi from "spotify-web-api-node";
 import { AuthProvider } from "./contexts/AuthContext";
 import {
   NavLink,
@@ -18,19 +17,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import TestComponent from "./components/TestComponent";
 import ProtectedRoute from "./components/ProtectedRoute";
-// const spotifyApi = new SpotifyWebApi();
+import LandingPage from "./components/LandingPage";
 
-//reference from https://www.youtube.com/watch?v=bhkg2godRDc
-// const getTokenFromUrl = () => {
-//   return window.location.hash
-//     .substring(1)
-//     .split("&")
-//     .reduce((initial, item) => {
-//       let parts = item.split("=");
-//       initial[parts[0]] = decodeURIComponent(parts[1]);
-//       return initial;
-//     }, {});
-// };
 
 function App() {
   const [currentUserFromDB, setCurrentUserFromDB] = useState();
@@ -52,53 +40,6 @@ function App() {
     );
   }, [currentUserFromDB]);
 
-  // const [spotifyToken, setSpotifyToken] = useState("");
-  // const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
-
-  //reference from https://www.youtube.com/watch?v=bhkg2godRDc
-  // useEffect(() => {
-  //   const getTopArtists = async () => {
-  //     spotifyApi.getMyTopArtists().then(
-  //       function (data) {
-  //         let topArtists = data.body.items;
-  //         console.log("Top Artists: ", topArtists);
-  //       },
-  //       function (err) {
-  //         console.log("Something went wrong!", err);
-  //       }
-  //     );
-  //   };
-
-  //   console.log("Here is what we got from url: ", getTokenFromUrl());
-  //   const spotifyToken = getTokenFromUrl().access_token;
-  //   window.location.hash = "";
-
-  //   if (spotifyToken) {
-  //     setSpotifyToken(spotifyToken);
-  //     spotifyApi.setAccessToken(spotifyToken);
-  //     console.log("calling top artists");
-  //     // getTopArtists();
-  //     console.log("done calling");
-  //     console.log(`This is the spotify token: ${spotifyToken}`);
-  //     spotifyApi.getMe().then((user) => {
-  //       console.log("user", user);
-  //     });
-  //     spotifyApi.getMyTopArtists().then(
-  //       (data) => {
-  //         console.log("data", data);
-  //       }
-  //       // function (data) {
-  //       //   // let topArtists = data.body.items;
-  //       //   console.log("Top Artists: ", data);
-  //       // },
-  //       // function (err) {
-  //       //   console.log("Something went wrong!", err);
-  //       // }
-  //     );
-  //     setLoggedInToSpotify(true);
-  //   }
-  // });
-
   return (
     <Router>
       <AuthProvider>
@@ -108,47 +49,47 @@ function App() {
           </NavLink>
           <nav>
             <ul className="Nav-Links">
-              <li>
-                <a className="Nav-Link">
-                  <NavLink to="/">Home</NavLink>
-                </a>
-              </li>
               {currentUserFromDB && (
-                <li>
-                  <a className="Nav-Link">
-                    <NavLink to={`/my-profile/`}>My Profile</NavLink>
-                  </a>
-                </li>
-              )}
-
-              <li>
-                <a className="Nav-Link">
-                  <NavLink to="/my-matches">My Matches</NavLink>
-                </a>
-              </li>
-              <li>
-                <a className="Nav-Link">
-                  <NavLink to="/message/:chatroom">My Messages</NavLink>
-                </a>
-              </li>
+                <div>
+                  <li>
+                    <a className="Nav-Link">
+                      <NavLink to={`/my-profile/`}>My Profile</NavLink>
+                    </a>
+                  </li>
+                  <li>
+                    <a className="Nav-Link">
+                      <NavLink to="/my-matches">My Matches</NavLink>
+                    </a>
+                  </li>
+                  <li>
+                    <a className="Nav-Link">
+                      <NavLink to="/message/:chatroom">My Messages</NavLink>
+                    </a>
+                  </li>
+                </div> )}
+                {!currentUserFromDB && 
               <li>
                 <a className="Nav-Link">
                   <NavLink to="/signup">Sign Up</NavLink>
                 </a>
-              </li>
+              </li>}
+
             </ul>
           </nav>
+          {!currentUserFromDB &&
           <a className="Nav-Link">
             <NavLink to="/login">
               <button>Login</button>
             </NavLink>
           </a>
+}
         </header>
 
         <div className="App-body">
           <Routes>
-            <Route exact path="/" element={<Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} />} />
-            <Route exact path="/home" element={<Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} />} />
+            {currentUserFromDB ? <Route exact path="/" element={<ProtectedRoute><Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} /></ProtectedRoute>} />
+            : <Route exact path="/" element={<LandingPage />} />}
+            {/* <Route exact path="/home" element={<ProtectedRoute><Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} /></ProtectedRoute>} /> */}
             <Route
               path="/my-profile/"
               element={

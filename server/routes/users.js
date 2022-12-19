@@ -29,19 +29,50 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/chat/:chat_id", async (req, res) => {
+router.get("/chat/:chatName", async (req, res) => {
   try {
-    req.params.id = errorChecking.checkId(req.params.id, "URL Original User ID Param");
-    req.params.chat_id = errorChecking.checkId(req.params.chat_id, 'URL Otheruser ID Param');
+    req.params.chatName = errorChecking.checkId(req.params.chatName, 'URL Chat Name Param');
   } catch (e) {
     return res.status(400).json({ error: e });
   }
 
   try {
-    let chat = await chatFunctions.getChatById(req.params.chat_id);
+    let chat = await chatFunctions.getChatByName(req.params.chatName);
     res.json(chat);
   } catch (e) {
     res.status(404).json({ error: "User Not Found." });
+  }
+});
+
+router.post("/chat/:chatName", async (req, res) => {
+  console.log("attempting to get message0");
+  const chatroomData = req.body;
+
+  try {
+    console.log("attempting to get message1");
+    chatroomData.message.sender = errorChecking.checkString(
+      chatroomData.message.sender, 
+      'Message Sender',
+      true
+    );
+    console.log("attempting to get message2");
+    chatroomData.message.content = errorChecking.checkString(
+      chatroomData.message.content,
+      'Message Content',
+      true
+    );
+    console.log("attempting to get message3");
+  } catch(e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    console.log("attempting to get message4");
+    let chat = await chatFunctions.addMessageToChat(req.params.chatName, chatroomData.message);
+    console.log("attempting to get message5");
+    res.json(chat);
+  } catch (e) {
+    res.status(404).json({ error: "Chat Not Found." });
   }
 });
 
@@ -61,6 +92,61 @@ router.post("/email/", async (req, res) => {
     res.json(user);
   } catch (e) {
     res.status(404).json({ error: "User Not Found." });
+  }
+});
+
+router.post("/create-chatroom", async (req, res) => {
+  const chatData = req.body;
+
+  try {
+    chatData.chatName = errorChecking.checkString(
+      chatData.chatName, 
+      'Chat Name', 
+      true);
+    chatData.users = errorChecking.checkArray(
+      chatData.users, 
+      'Chatroom Users', 
+      'string', 
+      true
+    );
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    console.log('please ?');
+    const creatingChat = await chatFunctions.createChat(
+      chatData.chatName,
+      chatData.users
+    );
+    console.log('please ?.');
+
+    res.json(creatingChat);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+router.delete("/delete-chatroom", async (req, res) => {
+  const chatData = req.body;
+
+  try {
+    chatData.chatName = errorChecking.checkString(
+      chatData.chatName, 
+      'Chat Name', 
+      true);
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+
+  try {
+    const chat = await chatFunctions.getChatByName(chatData.chatName);
+    console.log(chat);
+    const deletingChat = await chatFunctions.deleteChat(chat._id.toString());
+
+    res.json(deletingChat);
+  } catch (e) {
+    res.status(500).json({ error: e });
   }
 });
 

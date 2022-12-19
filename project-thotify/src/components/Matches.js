@@ -32,6 +32,12 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
   async function unmatch(person){
     console.log("person", person);
     console.log("unmatched ", person.name);
+    let chatroom;
+    if (person._id > currentUserFromDB._id){
+      chatroom = person._id + "-" + currentUserFromDB._id;
+    }else{
+      chatroom = currentUserFromDB._id + "-" + person._id;
+    }
     let userUpdateInfo = {
       firstName: currentUserFromDB.firstName,
       lastName: currentUserFromDB.lastName,
@@ -49,6 +55,14 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
       "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
     );
+
+    console.log("chatroom", chatroom);
+    const deleteChat = await axios.delete(
+      "http://localhost:8888/users/delete-chatroom/",
+      { 
+        data: {chatName: chatroom}
+      }
+    );
     
     setCurrentUserFromDB(newMatchData.data);
     
@@ -61,9 +75,10 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
           <div className='Center'>
             <Link to={`/Profile/${match._id}`}>{match.img}</Link>
             <h1>{match.name}</h1>
-            <button>
-              <Link to={`/message/${match.chatroom}`}>Chat</Link>
-            </button>
+            
+            <Link to={`/message/${match.chatroom}`}>
+              <button>Chat</button>
+            </Link>
             <button
               className='button'
               onClick={() =>
