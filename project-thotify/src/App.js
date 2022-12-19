@@ -128,24 +128,19 @@ function App() {
               </li>
               <li>
                 <a className="Nav-Link">
-                  <NavLink to="/message/">Message Test</NavLink>
+                  <NavLink to="/message/:chatroom">My Messages</NavLink>
                 </a>
               </li>
               <li>
                 <a className="Nav-Link">
-                  <NavLink to="/login">Login</NavLink>
-                </a>
-              </li>
-              <li>
-                <a className="Nav-Link">
-                  <NavLink to="/signup">Signup</NavLink>
+                  <NavLink to="/signup">Sign Up</NavLink>
                 </a>
               </li>
             </ul>
           </nav>
           <a className="Nav-Link">
-            <NavLink to="/test">
-              <button>Test</button>
+            <NavLink to="/login">
+              <button>Login</button>
             </NavLink>
           </a>
         </header>
@@ -173,7 +168,7 @@ function App() {
                 />
               </ProtectedRoute>
             } />
-            <Route path="/message/" element={
+            <Route path="/message/:chatroom" element={
                 <ProtectedRoute>
                   <Message
                     currentUserFromDB={currentUserFromDB}

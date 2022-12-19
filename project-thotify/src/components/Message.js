@@ -6,18 +6,48 @@ import React, {
 
 import io from 'socket.io-client';
 import './../App.css';
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 function Message({currentUserFromDB, setCurrentUserFromDB}) {
+  
+  const {chatroom} = useParams();
+  console.log(chatroom);
   // chat history, name, room, and recipient are passed in from the link on the matches page
   // const location = useLocation();
   // const [state, setState] = useState(location.state);
   // temporary state for testing purposes
   // currently has zero protection against unauthorized users joining the chat
-  const [state, setState] = useState({message: '', name: currentUserFromDB.firstName, room: 'A', recipient: 'Frank', history:[{name: currentUserFromDB.firstName, message: "Hi"},{name: currentUserFromDB.lastName, message: "Hello"}]});
+
+  console.log("CUFDB", currentUserFromDB);
+  
+  const recipient = currentUserFromDB.matches.filter((user) => user.chatroom === chatroom)[0].firstName;
+  console.log("recipient", recipient);
+
+  
+
+  const [state, setState] = useState({message: '', name: currentUserFromDB.firstName, room: chatroom, recipient: recipient, history:[]});
   const [chat, setChat] = useState([]);
 
   console.log("CUFDB, ", currentUserFromDB);
   const socketRef = useRef();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // const { data } = await axios.get(matchesURL + currentUserFromDB._id);
+        //should be in the form of:
+        //[{_id: 123141414, name: 'John', chatroom:'123', img}, ....]
+        const {data} = await axios.get(
+          "http://localhost:8888/users/" + currentUserFromDB._id + '/chat/' + chatroom,
+        );
+        console.log("data", data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     console.log("CUFDB 2, ", currentUserFromDB);
