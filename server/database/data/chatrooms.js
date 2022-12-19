@@ -34,10 +34,12 @@ const exportedMethods = {
         message.sender = errorChecking.checkString(message.sender, 'Message Sender', true);
         message.content = errorChecking.checkString(message.content, 'Message Content', true);
         
-        const newChatHistory = this.getChatHistory(chat_id);
+        const newChatHistory = await this.getChatHistory(chat_id);
+        console.log(newChatHistory);
         newChatHistory.push(message);
-        this.updateChat(chat_id, newChatHistory);
-        return null;
+
+        this.updateChat(chat_id, {history: newChatHistory});
+        return this.getChatById(chat_id);
     },
     async getChatHistory(chat_id) {
         chat_id = errorChecking.checkId(chat_id, 'Chat ID');
