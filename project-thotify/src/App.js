@@ -18,6 +18,7 @@ import Signup from "./components/Signup";
 import TestComponent from "./components/TestComponent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./components/LandingPage";
+import ErrorPage from "./components/ErrorPage";
 
 
 function App() {
@@ -125,6 +126,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path='*' element={<ErrorPage />}/>
           </Routes>
         </div>
       </AuthProvider>

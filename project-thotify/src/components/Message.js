@@ -12,19 +12,9 @@ import axios from "axios";
 function Message({currentUserFromDB, setCurrentUserFromDB}) {
   
   const {chatroom} = useParams();
-  // chat history, name, room, and recipient are passed in from the link on the matches page
-  // const location = useLocation();
-  // const [state, setState] = useState(location.state);
-  // temporary state for testing purposes
   // currently has zero protection against unauthorized users joining the chat
-
-  // Need to post to chat (update history)
-
-  // Render chat/render history not working?
-
-  //recopient undefined
-  
-  const recipient = currentUserFromDB.matches.filter((user) => user.chatroom === chatroom)[0].name;
+  const recipient = (currentUserFromDB.matches.length > 0 && currentUserFromDB.matches.filter((user) => user.chatroom === chatroom).length > 0 ) ? currentUserFromDB.matches.filter((user) => user.chatroom === chatroom)[0].name : null;
+  console.log("RECIPIENT", recipient);
 
 
   const [state, setState] = useState({message: '', name: currentUserFromDB.firstName, room: chatroom, recipient: recipient, history:[]});
@@ -35,7 +25,6 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        // const { data } = await axios.get(matchesURL + currentUserFromDB._id);
         //should be in the form of:
         //[{_id: 123141414, name: 'John', chatroom:'123', img}, ....]
         const {data} = await axios.get(
@@ -53,8 +42,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
   useEffect(() => {
     console.log("State, ", state);
     socketRef.current = io('/');
-    // setState({name: document.getElementById('username_input').value, room: document.getElementById('room_input').value});
-    socketRef.current.emit('create_room', state.name, "A");
+    socketRef.current.emit('create_room', state.name, state.room, currentUserFromDB._id);
     console.log("Room Created");
     return () => {
       socketRef.current.disconnect();
@@ -63,7 +51,11 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
 
   useEffect(() => {
     socketRef.current.on('message', ({name, message}) => {
-      setChat([...chat, {name, message}]);
+      console.log("NAME", name);
+      console.log("MESSAGE", message);
+      let currentDate = new Date();
+      const timestamp = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+      setChat([...chat, {name, message, timestamp }]);
     });
   }, [chat]);
 
@@ -72,16 +64,21 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     let msgEle = document.getElementById('message');
     console.log("msgElement", [msgEle.name], msgEle.value);
     setState({...state, [msgEle.name]: msgEle.value});
+    console.log("ROOM", state.room);
     socketRef.current.emit('message', {
       name: state.name,
       message: msgEle.value,
+      id: currentUserFromDB._id
     }, state.room);
+    console.log("ROOM", state.room);
     e.preventDefault();
     console.log("message", state.message);
+    let currentDate = new Date();
+    const timestamp = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
     const messageInfo = {
       sender: state.name, 
       content: msgEle.value, 
-      timestamp: new Date().toDateString()
+      timestamp: timestamp
     }
     console.log("messageInfo", messageInfo);
     try{
@@ -103,9 +100,6 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     setChat([]);
     socketRef.current.emit('leave_room', state.name, state.room);
     setState({message: '', name: '', room: ''});
-    //leads to form submission being cancelled because the form is not connected
-    // push chat to history on database
-    
   };
 
   const renderHistory = () => {
@@ -121,14 +115,20 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
 
   const renderChat = () => {
     console.log("CHAT", chat);
-    return chat.map(({name, message}, index) => (
+    return chat.map(({name, message, timestamp}, index) => (
       <div key={index}>
         <h3>
-          {name}: <span>{message}</span>
+          {timestamp} {name}: <span>{message}</span>
         </h3>
       </div>
     ));
   };
+  
+  if (!chatroom.includes(currentUserFromDB._id) || currentUserFromDB.matches.filter((user) => user.chatroom === chatroom).length <= 0 ){
+    return (
+      <h1>You do not have access to this chat room</h1>
+    )
+  }
 
   return (
     <div>
@@ -143,7 +143,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
           </div>
           <form onSubmit={onMessageSubmit}>
             <div>
-              <label for='message'>Type Message Here: </label>
+              <label htmlFor='message'>Type Message Here: </label>
               <input
                  className='Center'
                 name='message'
@@ -155,9 +155,9 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
             <button>Send Message</button>
             <br/><br/>
           </form>
-          <form onSubmit={onRoomLeave}>
+          {/* <form onSubmit={onRoomLeave}>
             <button>Leave Chat</button>
-          </form>
+          </form> */}
         </div>
       )}
 
