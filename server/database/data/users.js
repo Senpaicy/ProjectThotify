@@ -110,19 +110,19 @@ let exportedMethods = {
     updatedUser.matches = errorChecking.checkArray(
       updatedUser.matches,
       "Matches",
-      "string",
+      "object",
       true
     );
     updatedUser.rejects = errorChecking.checkArray(
       updatedUser.rejects,
       "Rejects",
-      "string",
+      "object",
       true
     );
     updatedUser.prospectiveMatches = errorChecking.checkArray(
       updatedUser.prospectiveMatches,
       "Prospective Matches",
-      "string",
+      "object",
       true
     );
     updatedUser.topArtists = errorChecking.checkArray(

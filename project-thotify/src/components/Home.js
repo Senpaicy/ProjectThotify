@@ -33,7 +33,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
       }
     }
     fetchData();
-  }, []);
+  }, [currentUserFromDB]);
 
   
 
@@ -45,13 +45,19 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
     }else{
       chatroom = currentUserFromDB._id + "-" + person._id;
     }
+    let matches = currentUserFromDB.matches;
+    if (matches){
+      currentUserFromDB.matches.push({_id: person._id, name: person.firstName, chatroom: chatroom, img: ""});
+    }else{
+      matches = [{_id: person._id, name: person.firstName, chatroom: chatroom, img: ""}];
+    }
     let userUpdateInfo = {
       firstName: currentUserFromDB.firstName,
       lastName: currentUserFromDB.lastName,
       bio: currentUserFromDB.bio,
       email: currentUserFromDB.email,
       spotifyUsername: currentUserFromDB.spotifyUsername,
-      matches: currentUserFromDB.matches.push({_id: person._id, name: person.name, chatroom: chatroom, img: ""}),
+      matches: matches,
       rejects: currentUserFromDB.rejects,
       prospectiveMatches: currentUserFromDB.prospectiveMatches,
       topArtists: currentUserFromDB.topArtists,
@@ -64,6 +70,8 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
     );
     
     setCurrentUserFromDB(newMatchData.data);
+
+    console.log("new current user:", currentUserFromDB); 
     
   }
 
@@ -148,7 +156,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
                   </ul>
                   <br />
                   <div>
-                  {currentUserFromDB.matches.includes(person._id) ?
+                  {currentUserFromDB.matches.filter((match) => match._id === person._id).length > 0 ?
                   <button
                 className='button'
                 onClick={() =>
