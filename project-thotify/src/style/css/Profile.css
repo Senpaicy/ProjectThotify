@@ -44,11 +44,10 @@ div {
   color: #fff;
 }
 
-.pfp { 
-    width: 300px; 
-    height: 300px; 
+img { 
+    width: 200px; 
+    height: 200px; 
     border-radius: 50%; 
-    border: 5px solid #fff;
     background: pink;
 }
 
@@ -56,8 +55,17 @@ div {
     width: 100%;
     display: flex; 
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    margin: 0 auto;
+}
+
+.row2 { 
+    width: 100%;
+    display: flex; 
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: top;
     margin: 0 auto;
 }
 
@@ -69,3 +77,38 @@ div {
     color: black;
 }
 
+.TopList {
+    padding: 30px
+}
+
+.Bio {
+    padding-left: 16px;
+    padding-right: 16px;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.Bio h3 {
+    margin: 0;
+}
+
+.Bio-Divider {
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 10px;
+}
+
+.Bio-Divider-B {
+    margin: 20px;
+    padding: 10px;
+}
+
+.Bio-Edit-Button {
+    font-size: medium;
+    height: 20px;
+    padding: 4px;
+    margin: 0;
+}

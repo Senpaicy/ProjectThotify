@@ -9,6 +9,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -23,6 +24,12 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
       navigate("/my-profile");
     } catch (error) {
       console.log(error.message);
+      if(error.response && error.response.data.error){
+        setError(error.response.data.error);
+      }
+      else {
+        setError(error);
+      }
     }
   };
   return (
@@ -52,7 +59,13 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
             />
             <label>Password</label>
           </div>        
-
+          <div className="ErrorMessage">
+            {error && 
+              <p>
+                {`${error}`}
+              </p>
+            }
+          </div>     
           <button type="submit">Login</button>
           <div className="Signup-Link">
             Not a Member? <a><NavLink to="/signup">Signup</NavLink></a>

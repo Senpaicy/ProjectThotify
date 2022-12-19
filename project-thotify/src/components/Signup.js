@@ -59,6 +59,7 @@ function Signup() {
     <div className="Center-Container">
       <div className="Center">
         <h1>Register</h1>
+        
         <form onSubmit={handleSubmit}>
           <div className="Text-Field">
             <input
@@ -151,13 +152,18 @@ function Signup() {
             />
             <label>Any extra information?</label>
           </div>
-
+          <div className="ErrorMessage">
+            {error && 
+              <p>
+                {`${error}`}
+              </p>
+            }
+          </div>      
           <button type="submit">Register</button>
           <div className="Signup-Link">
             Already a Member? <a><NavLink to="/login">Login</NavLink></a>
           </div>
-        </form>
-        {error && <p>{`${error}`}</p>}
+        </form>        
       </div>
     </div>
   );

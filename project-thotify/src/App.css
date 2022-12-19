@@ -54,6 +54,7 @@ header {
 button {
   color: black;
   padding: 16px 16px;
+  margin-left: 16px;
   transition: all 0.3 ease 0s
 }
 
@@ -61,3 +62,21 @@ button:hover {
   background-color: rgba(94, 165, 106, 1);
 }
 
+.SignUpButton {
+  color: white;
+  background-color: rgba(94, 165, 106, 0);
+}
+
+.SignUpButton:hover {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(94, 165, 106, 0);
+}
+
+.Row { 
+  width: 100%;
+  display: flex; 
+  flex-flow: row wrap;
+  justify-content: right;
+  align-items: center;
+  margin: 0 auto;
+}

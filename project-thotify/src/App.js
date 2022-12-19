@@ -47,42 +47,32 @@ function App() {
           <NavLink to="/">
             <h1 className="App-Title">Thotify</h1>
           </NavLink>
-          <nav>
-            <ul className="Nav-Links">
-              {currentUserFromDB && (
-                <div>
-                  <li>
-                    <a className="Nav-Link">
-                      <NavLink to={`/my-profile/`}>My Profile</NavLink>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="Nav-Link">
-                      <NavLink to="/my-matches">My Matches</NavLink>
-                    </a>
-                  </li>
-                  <li>
-                    <a className="Nav-Link">
-                      <NavLink to="/message/:chatroom">My Messages</NavLink>
-                    </a>
-                  </li>
-                </div> )}
-                {!currentUserFromDB && 
-              <li>
-                <a className="Nav-Link">
-                  <NavLink to="/signup">Sign Up</NavLink>
-                </a>
-              </li>}
-
-            </ul>
-          </nav>
-          {!currentUserFromDB &&
-          <a className="Nav-Link">
-            <NavLink to="/login">
-              <button>Login</button>
-            </NavLink>
-          </a>
-}
+          <div className="Row">
+            {currentUserFromDB && (
+              <NavLink to={`/my-profile/`}>
+                <button className="SignUpButton">
+                  My Profile
+                </button>
+              </NavLink>
+            )}
+            {currentUserFromDB && (
+              <NavLink to="/my-matches">
+                <button className="SignUpButton">
+                  My Matches
+                </button>
+              </NavLink>
+            )}
+            {!currentUserFromDB &&
+              <NavLink to="/login">
+                <button>Login</button>
+              </NavLink>
+            }
+            {!currentUserFromDB && 
+              <NavLink to="/signup">
+                <button className="SignUpButton">Sign Up</button>
+              </NavLink>
+            }
+          </div>
         </header>
 
         <div className="App-body">

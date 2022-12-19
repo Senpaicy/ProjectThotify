@@ -216,33 +216,46 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const Bio = () => {
     return (
       <div className="Bio">
-        <h3>Description:</h3>
-        <div> {userData.bio.description}</div>
-
-        <h3>Fun Fact:</h3>
-        <div> {userData.bio.funFact}</div>
-
-        <h3>Other:</h3>
-        <div>{userData.bio.other}</div>
+        
+        <div className="Bio-Divider">
+          <h3>Description:</h3>
+          <div>
+            {userData.bio.description}
+          </div>
+        </div>
+        <div className="Bio-Divider">
+          <h3>Fun Fact:</h3>
+          <div> 
+            {userData.bio.funFact}
+          </div>
+        </div>
+        <div className="Bio-Divider">
+          <h3>Other:</h3>
+          <div>
+            {userData.bio.other}
+          </div>
+        </div>
+        <div className="Bio-Divider-B">
+          <button className="Bio-Edit-Button" onClick={openModal}>Edit</button>
+        </div>
+        
       </div>
     );
   };
 
   const ConnectToSpotifyButton = () => {
     return (
-      <button type="button">
-        <a href="http://localhost:8888/spotify/login">
+      <a href="http://localhost:8888/spotify/login">
+        <button type="button">
           {userData.topTracks.length > 0 ? "Refresh Your Spotify Info" : "Connect Your Spotify Account" }
-        </a>
-      </button>
+        </button>
+      </a>
     );
   };
 
   const Picture = () => {
     return (
-      <div className="ProfilePic" name="pfp">
-        <img src="/images/profile/blank_pfp.png" alt="Profile Picture"></img>
-      </div>
+        <img className="ProfilePic" src="/images/profile/blank_pfp.png" alt="Profile Picture"></img>
     );
   };
 
@@ -276,19 +289,6 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     );
   };
 
-
-  // const customStyles = {
-  //   h1: {
-  //     // top: '50%',
-  //     // left: '50%',
-  //     // right: 'auto',
-  //     // bottom: 'auto',
-  //     // marginRight: '-50%',
-  //     // transform: 'translate(-50%, -50%)',
-  //     color: 'black'
-  //   },
-  // };
-
   if (errorMsg) {
     return (
       <div>
@@ -305,18 +305,18 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     } else {
       return (
         <div id="profile" className="container">
-          <button onClick={openModal}>Edit profile</button>
           <div className="name">
-            {" "}
-            {userData.firstName} {userData.lastName}{" "}
+            Hello, {" "}{userData.firstName} {userData.lastName}{" "}
           </div>
-          <div className="row1">
-            <Picture />
-            <Bio />
-          </div>
-          <div className="row1">
-            <TopTracks />
-            <TopArtists />
+          <div>
+            <div className="row1">
+              <Picture />
+              <Bio />
+            </div>
+            <div className="row2">
+              <TopTracks />
+              <TopArtists />
+            </div>
           </div>
           <div>
             <ConnectToSpotifyButton />
