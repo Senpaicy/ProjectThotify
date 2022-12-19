@@ -13,8 +13,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
   
   const {chatroom} = useParams();
   // currently has zero protection against unauthorized users joining the chat
-  
-  const recipient = currentUserFromDB.matches.length > 0 ? currentUserFromDB.matches.filter((user) => user.chatroom === chatroom)[0].name : null;
+  const recipient = (currentUserFromDB.matches.length > 0 && currentUserFromDB.matches.filter((user) => user.chatroom === chatroom).length > 0 ) ? currentUserFromDB.matches.filter((user) => user.chatroom === chatroom)[0].name : null;
   console.log("RECIPIENT", recipient);
 
 
@@ -125,7 +124,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     ));
   };
   
-  if (!chatroom.includes(currentUserFromDB._id)){
+  if (!chatroom.includes(currentUserFromDB._id) || currentUserFromDB.matches.filter((user) => user.chatroom === chatroom).length <= 0 ){
     return (
       <h1>You do not have access to this chat room</h1>
     )
