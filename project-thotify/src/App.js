@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import "./App.css";
 import React, { useEffect, useState } from "react";
 // import SpotifyWebApi from "spotify-web-api-node";
@@ -9,6 +8,8 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+
+// ---- Importing Components
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Matches from "./components/Matches";
@@ -34,10 +35,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const [currentUserFromDB, setCurrentUserFromDB] = useState();
 
-  console.log(
-    "LOCAL STORAGE:",
-    window.localStorage.getItem("currentUserFromDB")
-  );
+  // console.log(
+  //   "LOCAL STORAGE:",
+  //   window.localStorage.getItem("currentUserFromDB")
+  // );
 
   useEffect(() => {
     const data = window.localStorage.getItem("currentUserFromDB");
@@ -151,8 +152,8 @@ function App() {
 
         <div className="App-body">
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/" element={<Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} />} />
+            <Route exact path="/home" element={<Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} />} />
             <Route
               path="/my-profile/"
               element={
@@ -164,8 +165,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route exact path="/my-matches/" element={<Matches />} />
-            <Route path="/message/" element={<Message />} />
+            <Route exact path="/my-matches/" element={
+              <ProtectedRoute>
+                <Matches
+                  currentUserFromDB={currentUserFromDB}
+                  setCurrentUserFromDB={setCurrentUserFromDB}
+                />
+              </ProtectedRoute>
+            } />
+            <Route path="/message/" element={
+                <ProtectedRoute>
+                  <Message
+                    currentUserFromDB={currentUserFromDB}
+                    setCurrentUserFromDB={setCurrentUserFromDB}
+                  />
+                </ProtectedRoute>
+              } />
             <Route
               path="/login/"
               element={

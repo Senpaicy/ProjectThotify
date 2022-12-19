@@ -21,6 +21,8 @@ async function main() {
     const thotifyBackendChat = await chats.createChat('ThotifyBackendChat', [cindy_id, eric_id, farhan_id]);
     const thotifyFrontendChat = await chats.createChat('ThotifyBackendChat', [cindy_id, jacob_id]);
 
+    const thotifySeedersChat_id = thotifySeedersChat._id.toString(); 
+
     // ----- Printing Out 
     console.log("---------- Testing User Functions ----------");
     
@@ -65,13 +67,23 @@ async function main() {
     console.log(await chats.getAllChats());
 
     console.log("---------- getChatById(chat_id) ----------");
-    console.log(await chats.getChatById(thotifySeedersChat._id.toString()));
+    console.log(await chats.getChatById(thotifySeedersChat_id));
 
     console.log("---------- getUsersInChat(chat_id) ----------");
-    console.log(await chats.getUsersInChat(thotifySeedersChat._id.toString()));
+    console.log(await chats.getUsersInChat(thotifySeedersChat_id));
 
     console.log("---------- getChatHistory(chat_id) ----------");
-    console.log(await chats.getChatHistory(thotifySeedersChat._id.toString()));
+    console.log(await chats.getChatHistory(thotifySeedersChat_id));
+
+    console.log("---------- addto(chat_id) ----------");
+    const cindys_message_time = new Date;
+    const cindys_message = {
+        sender: cindy_id,
+        content: 'Testing if I have added any messages to the chat.',
+        timestamp: cindys_message_time.toDateString() + ' ' + cindys_message_time.toTimeString()
+    };
+    console.log(await chats.addMessageToChat(thotifySeedersChat_id, cindys_message));
+
 
     console.log("---------- createChat(chatName, users)----------");
     const tempChat = await chats.createChat('TemporaryChat', []);
@@ -91,7 +103,7 @@ async function main() {
             }
         ]
     };
-    console.log(await chats.updateChat(thotifySeedersChat._id.toString(), chatUpdate1));
+    console.log(await chats.updateChat(thotifySeedersChat_id, chatUpdate1));
 
     console.log('---------------------');
     console.log('Done seeding database');

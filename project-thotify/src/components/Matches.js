@@ -4,20 +4,22 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "../style/css/Forms.css";
 
-function Matches() {
+function Matches({currentUserFromDB}) {
 
   const [matchData, setMatchData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const matchesURL = "";
+  const matchesURL = "http://localhost:8888/users/";
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axios.get(matchesURL);
-        setMatchData(data);
+        const { data } = await axios.get(matchesURL + currentUserFromDB._id);
+        //should be in the form of:
+        //[{_id: 123141414, name: 'John', chatroom:'123', img}, ....]
+        setMatchData(data.matches);
         setLoading(false);
-        console.log(data);
+        console.log(data.matches);
       } catch (e) {
         console.log(e);
         setErrorMsg(e.message);
