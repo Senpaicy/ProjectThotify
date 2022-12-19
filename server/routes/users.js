@@ -176,19 +176,19 @@ router.post("/update-user/:id", async (req, res) => {
     updatedUserInfo.matches = errorChecking.checkArray(
       updatedUserInfo.matches,
       "Matches",
-      "string",
+      "object",
       true
     );
     updatedUserInfo.rejects = errorChecking.checkArray(
       updatedUserInfo.rejects,
       "Rejects",
-      "string",
+      "object",
       true
     );
     updatedUserInfo.prospectiveMatches = errorChecking.checkArray(
       updatedUserInfo.prospectiveMatches,
       "Prospective Matches",
-      "string",
+      "object",
       true
     );
     updatedUserInfo.topArtists = errorChecking.checkArray(
