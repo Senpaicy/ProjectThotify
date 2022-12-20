@@ -30,13 +30,19 @@ h1 {
 }
 
 h2 { 
-    font-size: 1rem; 
+    font-size: 1.25rem; 
     font-weight: 700; 
     margin-bottom: 10px; 
     text-align: left; 
     text-transform: uppercase; 
     letter-spacing: 2px; 
     color: #fff;
+}
+
+h3 {
+    font-size: 0.75rem;
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
 }
 
 div {
@@ -69,7 +75,8 @@ img {
 }
 
 .TopList {
-    padding: 30px
+    padding-right: 30px;
+    padding-bottom: 30px;
 }
 
 .Bio {
@@ -170,4 +177,26 @@ form .Modal-TextBox {
 
 .SpotifyUsername:hover {
     text-decoration: underline;
+}
+
+.ArtistPic {
+    width: 100px;
+    height: 100px;
+}
+
+.DivToScroll{   
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 7px 5px;
+}
+
+.DivWithScroll{
+    height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
 }

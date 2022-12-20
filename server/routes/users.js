@@ -239,16 +239,18 @@ router.post("/update-user/:id", async (req, res) => {
       "Email",
       true
     );
-    updatedUserInfo.spotifyUsername = errorChecking.checkString(
-      updatedUserInfo.spotifyUsername,
-      "Spotify Username",
-      true
-    );
+    // updatedUserInfo.spotifyUsername = errorChecking.checkString(
+    //   updatedUserInfo.spotifyUsername,
+    //   "Spotify Username",
+    //   true
+    // );
+    /*
     updatedUserInfo.pfp_url = errorChecking.checkString(
       updatedUserInfo.pfp_url,
       "Profile Pic URL",
       true
     );
+    */
     updatedUserInfo.bio.description = errorChecking.checkString(
       updatedUserInfo.bio.description,
       "Description",
@@ -288,6 +290,12 @@ router.post("/update-user/:id", async (req, res) => {
       "string",
       true
     );
+    updatedUserInfo.topArtistImgs = errorChecking.checkArray(
+      updatedUserInfo.topArtistImgs,
+      "Top Artists Images",
+      "string",
+      true
+    );
     updatedUserInfo.topTracks = errorChecking.checkArray(
       updatedUserInfo.topTracks,
       "Top Tracks",
@@ -315,6 +323,7 @@ router.post("/update-user/:id", async (req, res) => {
       rejects: updatedUserInfo.rejects,
       prospectiveMatches: updatedUserInfo.prospectiveMatches,
       topArtists: updatedUserInfo.topArtists,
+      topArtistImgs: updatedUserInfo.topArtistImgs,
       topTracks: updatedUserInfo.topTracks,
     };
 

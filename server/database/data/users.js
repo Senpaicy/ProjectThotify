@@ -1,6 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
-const imagemagick = require('imagemagick');
+// const imagemagick = require('imagemagick');
 const { ObjectId } = require("mongodb");
 const errorChecking = require("../errorChecking/errorChecking");
 
@@ -46,13 +46,14 @@ let exportedMethods = {
       lastName: lastName,
       email: email,
       spotifyUsername: "",
-      pfp_url: "",
+      pfp_url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       bio: bio,
       matches: [],
       rejects: [],
       prospectiveMatches: [],
       topArtists: [],
-      topTracks: [],
+      topArtistImgs: [],
+      topTracks: []
     };
 
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -82,16 +83,18 @@ let exportedMethods = {
       "Last Name",
       false
     );
-    updatedUser.spotifyUsername = errorChecking.checkString(
-      updatedUser.spotifyUsername,
-      "Spotify Username",
-      true
-    );
+    // updatedUser.spotifyUsername = errorChecking.checkString(
+    //   updatedUser.spotifyUsername,
+    //   "Spotify Username",
+    //   true
+    // );
+    /*
     updatedUser.pfp_url = errorChecking.checkString(
       updatedUser.pfp_url,
       "Profile Url",
       true
     );
+    */
     updatedUser.email = errorChecking.checkString(
       updatedUser.email,
       "email",
@@ -136,6 +139,11 @@ let exportedMethods = {
       "string",
       true
     );
+    updatedUser.topArtistImgs = errorChecking.checkArray(
+      updatedUser.topArtistImgs,
+      "Top Artists Images",
+      true
+    );
     updatedUser.topTracks = errorChecking.checkArray(
       updatedUser.topTracks,
       "Top Tracks",
@@ -154,6 +162,7 @@ let exportedMethods = {
       rejects: updatedUser.rejects,
       prospectiveMatches: updatedUser.prospectiveMatches,
       topArtists: updatedUser.topArtists,
+      topArtistImgs: updatedUser.topArtistImgs,
       topTracks: updatedUser.topTracks,
     };
 

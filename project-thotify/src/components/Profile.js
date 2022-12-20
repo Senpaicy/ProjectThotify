@@ -51,18 +51,20 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
               topArtistNames = topArtists.map((artist) => {
                 return artist.name;
               });
-              spotifyApi.getMyTopTracks().then(
-                async function (data) {
-                  let topTracks = data.body.items;
-                  console.log("top tracks:", topTracks);
-                  topTrackNames = topTracks.map((track) => {
-                    if (track.artists[0]){
-                      return track.name + " by " + track.artists[0].name;
-                    }else{
-                      return track.name;
-                    }
+              let topArtistImgs = topArtists.map((artist) => {
+                return artist.images[0].url;
+              });
+            spotifyApi.getMyTopTracks().then(
+              async function (data) {
+                let topTracks = data.body.items;
+                console.log("top tracks:", topTracks);
+                topTrackNames = topTracks.map((track) => {
+                  if (track.artists[0]){
+                    return track.name + " by " + track.artists[0].name;
+                  }else{
+                    return track.name;
                   }
-                  );
+                });
                   console.log("top track names:", topTrackNames);
                   console.log("CurrentUSerFromDB: ", currentUserFromDB);
                   let userUpdateInfo = {
@@ -71,10 +73,12 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                     bio: currentUserFromDB.bio,
                     email: currentUserFromDB.email,
                     spotifyUsername: userName,
+                    pfp_url: profilePic,
                     matches: currentUserFromDB.matches,
                     rejects: currentUserFromDB.rejects,
                     prospectiveMatches: currentUserFromDB.prospectiveMatches,
                     topArtists: topArtistNames,
+                    topArtistImgs: topArtistImgs,
                     topTracks: topTrackNames,
                   };
                   console.log("userUpdateInfo", userUpdateInfo);
@@ -127,6 +131,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     rejects: [],
     prospectiveMatches: [],
     topArtists: [],
+    topArtistImgs: [],
     topTracks: [],
   });
 
@@ -183,6 +188,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
         rejects: currentUserFromDB.rejects,
         prospectiveMatches: currentUserFromDB.prospectiveMatches,
         topArtists: currentUserFromDB.topArtists,
+        topArtistImgs: currentUserFromDB.topArtistImgs,
         topTracks: currentUserFromDB.topTracks,
       };
       console.log("userUpdateInfo", userUpdateInfo);
@@ -192,6 +198,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
       );
       console.log("updated user", updatedUser);
       setCurrentUserFromDB(updatedUser.data);
+      window.scrollTo(0, 0);
       setIsOpen(false);
     } catch(error) {
       console.log(error);
@@ -261,11 +268,10 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const TopTracks = () => {
     return (
       <div className="TopList">
-        <h2>Top Tracks</h2>
           {userData.topTracks.map((track, index) => {
             return (
               <div key={index}>
-                {index + 1}. {track}
+                <h3>{index + 1}. {track}</h3>
               </div>
             );
           })}
@@ -273,14 +279,18 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     );
   };
 
+  console.log("USER DATA", userData);
+  
+  console.log("USER DATA.ARTIST IMGS", userData.topArtistImgs);
+
   const TopArtists = () => {
     return (
       <div className="TopList">
-        <h2>Top Artists</h2>
           {userData.topArtists.map((artist, index) => {
             return (
-              <div key={index}>
-                {index + 1}. {artist}
+              <div className="" key={index}>
+                <h3> {index + 1}. {artist} </h3>
+                <img className="ArtistPic" src={userData.topArtistImgs[index]} alt="Artist Picture"></img>
               </div>
             );
           })}
@@ -317,8 +327,18 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                 <Bio />
               </div>
               <div className="row2">
-                <TopTracks />
-                <TopArtists />
+                <div>
+                  <h2>Top Artists</h2>
+                  <TopTracks />
+                </div>
+                <div>
+                  <h2>Top Artists</h2>
+                  <div className="DivWithScroll">
+                    <TopArtists />
+                  </div>
+                </div>
+                
+                
               </div>
             </div>
             <div className="Button-Div">
@@ -349,7 +369,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                     <input
                       type="text"
                       name="pfp_url"
-                      defaultValue={userData.bio.pfp_url}
+                      defaultValue={userData.pfp_url}
                       onChange={(e) => {
                         setProfilePic(e.target.value);
                       }}

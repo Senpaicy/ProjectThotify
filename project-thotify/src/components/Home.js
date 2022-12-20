@@ -85,6 +85,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
       rejects: currentUserFromDB.rejects,
       prospectiveMatches: currentUserFromDB.prospectiveMatches,
       topArtists: currentUserFromDB.topArtists,
+      topArtistImgs: currentUserFromDB.topArtistImgs,
       topTracks: currentUserFromDB.topTracks,
     };
 
@@ -121,10 +122,12 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
       bio: currentUserFromDB.bio,
       email: currentUserFromDB.email,
       spotifyUsername: currentUserFromDB.spotifyUsername,
+      pfp_url: currentUserFromDB.pfp_url,
       matches: currentUserFromDB.matches.filter((user) => user._id !== person._id),
       rejects: currentUserFromDB.rejects,
       prospectiveMatches: currentUserFromDB.prospectiveMatches,
       topArtists: currentUserFromDB.topArtists,
+      topArtistImgs: currentUserFromDB.topArtistImgs,
       topTracks: currentUserFromDB.topTracks,
     };
 
