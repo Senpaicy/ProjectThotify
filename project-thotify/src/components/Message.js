@@ -150,8 +150,6 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
                     placeholder='Type Message Here'
                     name='message'
                     id='message'
-                    variant='outlined'
-                    label='Message'
                   />
                   <label hidden htmlFor="message">Type Message Here</label>
                 </div>

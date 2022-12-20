@@ -51,33 +51,37 @@ function App() {
           <div className="Row">
             {currentUserFromDB && (
               <NavLink to={`/`}>
-                <button className="SignUpButton">
-                  Home
-                </button>
+                <p className="SignUpButton">
+                  HOME
+                </p>
               </NavLink>
             )}
             {currentUserFromDB && (
               <NavLink to={`/my-profile/`}>
-                <button className="SignUpButton">
-                  My Profile
-                </button>
+                <p className="SignUpButton">
+                  MY PROFILE
+                </p>
               </NavLink>
             )}
             {currentUserFromDB && (
               <NavLink to="/my-matches">
-                <button className="SignUpButton">
-                  My Matches
-                </button>
+                <p className="SignUpButton">
+                  MY MATCHES
+                </p>
               </NavLink>
             )}
             {!currentUserFromDB &&
               <NavLink to="/login">
-                <button>Login</button>
+                <p className="SignUpButton">
+                  LOGIN
+                </p>
               </NavLink>
             }
             {!currentUserFromDB && 
               <NavLink to="/signup">
-                <button className="SignUpButton">Sign Up</button>
+                <p className="SignUpButton">
+                  SIGN UP
+                </p>
               </NavLink>
             }
           </div>

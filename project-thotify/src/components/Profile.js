@@ -252,9 +252,12 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const ConnectToSpotifyButton = () => {
     return (
       <a href="http://localhost:8888/spotify/login">
-        <button className="PButton" type="button">
-          {userData.spotifyUsername ? "Refresh Spotify Info" : "Connect to Spotify" }
-        </button>
+        <div className="PButton">
+          <p >
+            {userData.spotifyUsername ? "Refresh Spotify Info" : "Connect to Spotify" }
+          </p>
+        </div>
+        
       </a>
     );
   };
