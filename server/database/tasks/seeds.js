@@ -229,9 +229,38 @@ async function main() {
         matches: [],
         rejects: [],
         prospectiveMatches: [],
-        topArtists: [],
-        topArtistImgs: [],
-        topTracks: []
+        topArtists: [
+            "Dayglow",
+            "Playboi Carti",
+            "FISHER",
+            "Disco Lines",
+            "Lorde",
+            "Trippie Redd",
+            "New York Jazz Trio",
+            "Drake",
+            "Capital Cities",
+            "Kanye West"
+        ],
+        topArtistImgs: [
+            "https://i.scdn.co/image/ab6761610000e5eb7b0d9dd77c706b95bb93e56a",
+            "https://i.scdn.co/image/ab6761610000e5ebcce32307d0f312e8faf01bae",
+            "https://i.scdn.co/image/ab6761610000e5eb02fcc327683d53bea9583c69",
+            "https://i.scdn.co/image/ab6761610000e5ebcf2d79c09904f0b4db12f925",
+            "https://i.scdn.co/image/ab6761610000e5eb596dbb284439404b9d722706",
+            "https://i.scdn.co/image/ab6761610000e5ebbe5ca65d6788751ad529084f",
+            "https://i.scdn.co/image/ab6761610000e5eb504ff11d788162fbf8078654",
+            "https://i.scdn.co/image/ab6761610000e5ebcd3fb82b1270a175ed000118",
+            "https://i.scdn.co/image/ab6761610000e5eb71d3c46989f4997a370d1b00",
+            "https://i.scdn.co/image/ab6761610000e5ebc7a7b191db13668f1a6d863d"
+        ],
+        topTracks: [
+            "Was It Something I Said by MyKey",
+            "7 Weeks & 3 Days by yungatita",
+            "7 Weeks & 3 Days - Harmless Remix by yungatita",
+            "Plasma by DR. GABBA",
+            "Don't Quit by Pure Mids",
+            "golden hour by JVKE"
+        ]
     };
     console.log("------- Finished creating an updated user object: ");
 

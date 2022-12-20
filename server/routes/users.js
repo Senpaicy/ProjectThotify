@@ -189,6 +189,11 @@ router.post("/create-user-profile", async (req, res) => {
   }
 
   try {
+    const userExist = await userFunctions.getUserByEmail(userSignUpInfo.email);
+    if(userExist) {
+      throw 'Error: User already exists with that email.'
+    }
+
     const newUser = {
       firstName: userSignUpInfo.firstName,
       lastName: userSignUpInfo.lastName,

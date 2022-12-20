@@ -24,7 +24,8 @@ let exportedMethods = {
 
     const userCollection = await users();
     const user = await userCollection.findOne({ email: userEmail });
-    if (!user) throw "User not found";
+    // if (!user) throw "User not found";
+    
     return user;
   },
   async addUser(firstName, lastName, email, bio) {
