@@ -211,8 +211,8 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
                       <div className="Bio-Divider">
                         <h2>{person.firstName}'s Shared Songs: </h2>
                         <ul>
-                          {tracksInCommon.map((track) => {
-                            return (<li>
+                          {tracksInCommon.map((track, index) => {
+                            return (<li key = {index}>
                               {track}
                             </li>)})}
                         </ul> 
@@ -223,8 +223,8 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
                       <div className="Bio-Divider">
                         <h2>{person.firstName}'s Shared Artists: </h2>
                         <ul>
-                          {artistsInCommon.map((artist) => {
-                            return (<li>
+                          {artistsInCommon.map((artist, index) => {
+                            return (<li key = {index}>
                               {artist}
                             </li>)})}
                         </ul>
