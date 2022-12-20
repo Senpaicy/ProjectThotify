@@ -120,19 +120,19 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   // const [userData, setUserData] = useState(undefined);
   const [userData, setUserData] = useState({
-    firstName: "",
-    lastName: "",
-    bio: {
-      description: "",
-      funFact: "",
-      other: "",
-    },
-    matches: [],
-    rejects: [],
-    prospectiveMatches: [],
-    topArtists: [],
-    topArtistImgs: [],
-    topTracks: [],
+    // firstName: "",
+    // lastName: "",
+    // bio: {
+    //   description: "",
+    //   funFact: "",
+    //   other: "",
+    // },
+    // matches: [],
+    // rejects: [],
+    // prospectiveMatches: [],
+    // topArtists: [],
+    // topArtistImgs: [],
+    // topTracks: [],
   });
 
   const [loading, setLoading] = useState(true);
@@ -261,7 +261,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   const Picture = () => {
     return (
-        <img className="ProfilePic" src={profilePic} alt="Profile Picture"></img>
+        <img className="ProfilePic" src={userData.pfp_url} alt="Profile Picture"></img>
     );
   };
 
@@ -318,25 +318,31 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             <div className="name">
               Hello, {" "}{userData.firstName} {userData.lastName}{" "}
             </div>
+            {userData.spotifyUsername !== "" &&
             <div className="SpotifyUsername">
               <a href={`https://open.spotify.com/user/${userData.spotifyUsername}`} target="_blank">@{userData.spotifyUsername}</a>
             </div>
+            }
             <div>
               <div className="row1">
                 <Picture />
                 <Bio />
               </div>
               <div className="row2">
+                {userData.topTracks.length > 0 &&
                 <div>
-                  <h2>Top Artists</h2>
+                  <h2>Top Tracks</h2>
                   <TopTracks />
                 </div>
+                }
+                {userData.topArtists.length > 0 &&
                 <div>
                   <h2>Top Artists</h2>
                   <div className="DivWithScroll">
                     <TopArtists />
                   </div>
                 </div>
+                }
                 
                 
               </div>
@@ -369,45 +375,49 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                     <input
                       type="text"
                       name="pfp_url"
+                      id="pfp_url"
                       defaultValue={userData.pfp_url}
                       onChange={(e) => {
                         setProfilePic(e.target.value);
                       }}
                     />
-                    <label>Profile Pic Url</label>
+                    <label htmlFor="pfp_url">Profile Pic Url</label>
                   </div>
                   <div className="Modal-TextBox">
                     <input
                       type="text"
                       name="description"
+                      id="description"
                       defaultValue={userData.bio.description}
                       onChange={(e) => {
                         setDescription(e.target.value);
                       }}
                     />
-                    <label>Description</label>
+                    <label htmlFor="description">Description</label>
                   </div>
                   <div className="Modal-TextBox">
                     <input
                       type="text"
                       name="funFact"
+                      id="funFact"
                       defaultValue={userData.bio.funFact}
                       onChange={(e) => {
                         setFunFact(e.target.value);
                       }}
                     />
-                    <label>Fun Fact</label>
+                    <label htmlFor="funFact">Fun Fact</label>
                   </div>
                   <div className="Modal-TextBox">
                     <input
                       type="text"
                       name="other"
+                      id="other"
                       defaultValue={userData.bio.other}
                       onChange={(e) => {
                         setOther(e.target.value);
                       }}
                     />
-                    <label>Other</label>
+                    <label htmlFor="other">Other</label>
                   </div>
               </form>
               <button onClick={handleProfileUpdate}>

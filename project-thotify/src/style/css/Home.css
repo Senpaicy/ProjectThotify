@@ -1,0 +1,15 @@
+.Card-Heading {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.Card-Heading h1 {
+    margin: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.ProfilePic {
+    width: 100px;
+    height: 100px;
+}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // --- Importing Stylesheets
 import './../App.css';
 import "../style/css/Forms.css";
+import "../style/css/Home.css";
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -174,11 +175,18 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
            return (
               <div className='Center' key={person._id}>
                 <div className='Text-Field'>
-               
-                  <h1>{person.firstName}</h1>
-                  <div className="SpotifyUsername">
-                    <a href={`https://open.spotify.com/user/${person.spotifyUsername}`} target="_blank">@{person.spotifyUsername}</a>
+                  <div className='Card-Heading'>
+                    <div className="ImageNameHolder">
+                      <img className="ProfilePic" src={person.pfp_url} alt="Profile Picture"></img>
+                      <h1>{person.firstName}</h1>
+                    </div>
+                    {person.spotifyUsername !== "" &&
+                    <div className="SpotifyUsername">
+                      <a href={`https://open.spotify.com/user/${person.spotifyUsername}`} target="_blank">@{person.spotifyUsername}</a>
+                    </div>
+                    }
                   </div>
+                  
                   <div className="Bio">
                     <div className="Bio-Divider">
                       <h2>Description:</h2>

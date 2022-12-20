@@ -42,23 +42,25 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
             <input
               type="email"
               name="email"
+              id="email"
               placeholder=""
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
           </div>
           <div className="Text-Field">
             <input
               type="password"
               name="password"
+              id="password"
               placeholder=""
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
           </div>        
           <div className="ErrorMessage">
             {error && 
@@ -69,7 +71,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
           </div>     
           <button type="submit">Login</button>
           <div className="Signup-Link">
-            Not a Member? <a><NavLink to="/signup">Signup</NavLink></a>
+            Not a Member? <NavLink to="/signup">Signup</NavLink>
           </div>
         </form>
       </div>

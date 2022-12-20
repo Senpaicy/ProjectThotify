@@ -70,7 +70,7 @@ img {
     display: flex; 
     flex-flow: row wrap;
     justify-content: center;
-    align-items: top;
+    align-items: flex-start;
     margin: 0 auto;
 }
 

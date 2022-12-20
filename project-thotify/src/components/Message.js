@@ -107,9 +107,9 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     console.log("History", state.history);
     return state.history.map(({content, sender, timestamp}, index) => (
       <div key={index}>
-        <h3>
+        <h2>
           {timestamp} {sender}: <span>{content}</span>
-        </h3>
+        </h2>
       </div>
     ));
   };
@@ -118,9 +118,9 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     console.log("CHAT", chat);
     return chat.map(({name, message, timestamp}, index) => (
       <div key={index}>
-        <h3>
+        <h2>
           {timestamp} {name}: <span>{message}</span>
-        </h3>
+        </h2>
       </div>
     ));
   };
@@ -153,7 +153,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
                     variant='outlined'
                     label='Message'
                   />
-                  <label></label>
+                  <label hidden htmlFor="message">Type Message Here</label>
                 </div>
                 <button>Send Message</button>
               </div>

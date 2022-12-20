@@ -75,7 +75,7 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
       <div key={match._id}>
         <div className='Center-Container'>
           <div className='Center'>
-            <Link to={`/Profile/${match._id}`}>{match.img}</Link>
+            {/* <Link to={`/Profile/${match._id}`}>{match.img}</Link> */}
             <h1>{match.name}</h1>
             
             <Link to={`/message/${match.chatroom}`}>

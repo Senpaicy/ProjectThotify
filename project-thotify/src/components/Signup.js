@@ -65,92 +65,100 @@ function Signup() {
             <input
               type="text"
               name="firstName"
+              id="firstName"
               placeholder=""
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
             />
-            <label>First Name</label>
+            <label htmlFor="firstName">First Name</label>
           </div>
 
           <div className="Text-Field">
             <input
               type="text"
               name="lastName"
+              id="lastName"
               placeholder=""
               onChange={(e) => {
                 setLastName(e.target.value);
               }}
             />
-            <label>Last Name</label>
+            <label htmlFor="lastName">Last Name</label>
           </div>
 
           <div className="Text-Field">
             <input
               type="email"
               name="email"
+              id="email"
               placeholder=""
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
           </div>
 
           <div className="Text-Field">
             <input
               type="password"
               name="password"
+              id="password"
               placeholder=""
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
           </div>
           <div className="Text-Field">
             <input
               type="password"
               name="passwordConfirmation"
+              id="passwordConfirmation"
               placeholder=""
               onChange={(e) => {
                 setPasswordConfirmation(e.target.value);
               }}
             />
-            <label>Re-enter Password</label>
+            <label htmlFor="passwordConfirmation">Re-enter Password</label>
           </div>
           <div className="Text-Field">
             <input
               type="text"
               name="description"
+              id="description"
               placeholder=""
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
             />
-            <label>Describe yourself in a couple of words...</label>
+            <label htmlFor="description">Describe yourself in a couple of words...</label>
           </div>
           <div className="Text-Field">
             <input
               type="text"
               name="funFact"
+              id="funFact"
               placeholder=""
               onChange={(e) => {
                 setFunFact(e.target.value);
               }}
             />
-            <label>Add a little fun fact about yourself...</label>
+            <label htmlFor="funFact">Add a little fun fact about yourself...</label>
           </div>
           <div className="Text-Field">
             <input
               type="text"
               name="other"
+              id="other"
               placeholder=""
               onChange={(e) => {
                 setOther(e.target.value);
               }}
             />
-            <label>Any extra information?</label>
+            <label htmlFor="other">Any extra information?</label>
           </div>
           <div className="ErrorMessage">
             {error && 
@@ -161,7 +169,7 @@ function Signup() {
           </div>      
           <button type="submit">Register</button>
           <div className="Signup-Link">
-            Already a Member? <a><NavLink to="/login">Login</NavLink></a>
+            Already a Member? <NavLink to="/login">Login</NavLink>
           </div>
         </form>        
       </div>
