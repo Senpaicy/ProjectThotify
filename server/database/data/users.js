@@ -1,8 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
-
-// const chats = mongoCollections.chats;
-
+const imagemagick = require('imagemagick');
 const { ObjectId } = require("mongodb");
 const errorChecking = require("../errorChecking/errorChecking");
 
@@ -48,6 +46,7 @@ let exportedMethods = {
       lastName: lastName,
       email: email,
       spotifyUsername: "",
+      pfp_url: "",
       bio: bio,
       matches: [],
       rejects: [],
@@ -86,6 +85,11 @@ let exportedMethods = {
     updatedUser.spotifyUsername = errorChecking.checkString(
       updatedUser.spotifyUsername,
       "Spotify Username",
+      true
+    );
+    updatedUser.pfp_url = errorChecking.checkString(
+      updatedUser.pfp_url,
+      "Profile Url",
       true
     );
     updatedUser.email = errorChecking.checkString(
@@ -145,6 +149,7 @@ let exportedMethods = {
       bio: updatedUser.bio,
       email: updatedUser.email,
       spotifyUsername: updatedUser.spotifyUsername,
+      pfp_url: updatedUser.pfp_url,
       matches: updatedUser.matches,
       rejects: updatedUser.rejects,
       prospectiveMatches: updatedUser.prospectiveMatches,

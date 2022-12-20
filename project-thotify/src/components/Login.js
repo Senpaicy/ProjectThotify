@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 
+
 function Login({currentUserFromDB, setCurrentUserFromDB}) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");

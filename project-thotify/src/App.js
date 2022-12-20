@@ -50,6 +50,13 @@ function App() {
           </NavLink>
           <div className="Row">
             {currentUserFromDB && (
+              <NavLink to={`/`}>
+                <button className="SignUpButton">
+                  Home
+                </button>
+              </NavLink>
+            )}
+            {currentUserFromDB && (
               <NavLink to={`/my-profile/`}>
                 <button className="SignUpButton">
                   My Profile

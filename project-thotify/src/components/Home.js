@@ -159,13 +159,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
         </div>
       );
     } else {
-      // return (
-      //   <div className="App-body">
-      //     {errorMsg}
-      //     <br />
-      //     <div className="list-unstyled">{li}</div>
-      //   </div>
-      // );
+
       return (
         <div>
           <br />
@@ -179,70 +173,77 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
                 <div className='Text-Field'>
                
                   <h1>{person.firstName}</h1>
+                  <div className="SpotifyUsername">
+                    <a href={`https://open.spotify.com/user/${person.spotifyUsername}`} target="_blank">@{person.spotifyUsername}</a>
+                  </div>
                   <div className="Bio">
                     <div className="Bio-Divider">
-                      <h3>Description:</h3>
+                      <h2>Description:</h2>
                       <div>
                         {person.bio.description}
                       </div>
                     </div>
                     <div className="Bio-Divider">
-                      <h3>Fun Fact:</h3>
+                      <h2>Fun Fact:</h2>
                       <div> 
                         {person.bio.funFact}
                       </div>
                     </div>
                     <div className="Bio-Divider">
-                      <h3>Other:</h3>
+                      <h2>Other:</h2>
                       <div>
                         {person.bio.other}
                       </div>
                     </div>
+                    {tracksInCommon.length > 0 ?
+                      <div className="Bio-Divider">
+                        <h2>{person.firstName}'s Shared Songs: </h2>
+                        <ul>
+                          {tracksInCommon.map((track) => {
+                            return (<li>
+                              {track}
+                            </li>)})}
+                        </ul> 
+                      </div>
+                      : null
+                    }
+                    {artistsInCommon.length > 0 ?
+                      <div className="Bio-Divider">
+                        <h2>{person.firstName}'s Shared Artists: </h2>
+                        <ul>
+                          {artistsInCommon.map((artist) => {
+                            return (<li>
+                              {artist}
+                            </li>)})}
+                        </ul>
+                      </div>
+                      :null
+                    }
+                    {currentUserFromDB.matches.filter(
+                    (match) => match._id === person._id).length > 0 ?
+                    <button
+                      className='button'
+                      onClick={
+                        () => unmatch(person)
+                      } 
+                    >
+                      Unmatch
+                    </button>
+                    :
+                    <button
+                      className='button'
+                      onClick={() =>
+                        match(person)
+                      }
+                    >
+                      Match
+                    </button>
+                    }
                   </div>
-                  <h2>{person.firstName}'s Top Song: </h2>
-                  <ul>
-                    {tracksInCommon.map((track) => {
-                      return (<li>
-                        {track}
-                      </li>)})}
-                  </ul>
-                  <h2>{person.firstName}'s Top Artist:</h2>
-                  <ul>
-                    {artistsInCommon.map((artist) => {
-                      return (<li>
-                        {artist}
-                      </li>)})}
-                  </ul>
+                  
                   <br />
-                  <div>
-                  {currentUserFromDB.matches.filter((match) => match._id === person._id).length > 0 ?
-                  <button
-                className='button'
-                onClick={() =>
-                  // unmatch 
-                  // remove from currentUserFromDB.matches
-                  unmatch(person)
-                  // console.log("Unmatched ", person.firstName)
-                }
-              >
-                Unmatch
-              </button>
-              :
-              <button
-                className='button'
-                onClick={() =>
-                  // match
-                  // add to from currentUserFromDB.matches
-                  match(person)
-                  // console.log("Matched ", person.firstName)
-                }
-              >
-                Match
-              </button>
-            }
-                  </div>
-                 
                   <br />
+                  
                 </div>
               </div>
             )

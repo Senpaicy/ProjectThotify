@@ -197,7 +197,7 @@ router.post("/create-user-profile", async (req, res) => {
         description: userSignUpInfo.description,
         funFact: userSignUpInfo.funFact,
         other: userSignUpInfo.other,
-      },
+      }
     };
 
     const creatingUser = await userFunctions.addUser(
@@ -242,6 +242,11 @@ router.post("/update-user/:id", async (req, res) => {
     updatedUserInfo.spotifyUsername = errorChecking.checkString(
       updatedUserInfo.spotifyUsername,
       "Spotify Username",
+      true
+    );
+    updatedUserInfo.pfp_url = errorChecking.checkString(
+      updatedUserInfo.pfp_url,
+      "Profile Pic URL",
       true
     );
     updatedUserInfo.bio.description = errorChecking.checkString(
@@ -300,6 +305,7 @@ router.post("/update-user/:id", async (req, res) => {
       lastName: updatedUserInfo.lastName,
       email: updatedUserInfo.email,
       spotifyUsername: updatedUserInfo.spotifyUsername,
+      pfp_url: updatedUserInfo.pfp_url,
       bio: {
         description: updatedUserInfo.bio.description,
         funFact: updatedUserInfo.bio.funFact,

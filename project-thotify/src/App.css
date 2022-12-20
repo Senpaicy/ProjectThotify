@@ -8,6 +8,11 @@
   margin: 0;
 }
 
+.App-Title:hover {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(94, 165, 106, 0);
+}
+
 .App-body {
   height: 100%;
   width: 100%;

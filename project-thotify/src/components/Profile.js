@@ -26,6 +26,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const [loggedInToSpotify, setLoggedInToSpotify] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalError, setModalError] = useState();
+  const [profilePic, setProfilePic] = useState(currentUserFromDB.pfp_url);
   const [description, setDescription] = useState(currentUserFromDB.bio.description);
   const [funFact, setFunFact] = useState(currentUserFromDB.bio.funFact);
   const [other, setOther] = useState(currentUserFromDB.bio.other);
@@ -165,7 +166,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   }
 
   const handleProfileUpdate = async (e) => {
-    e.preventDefault();
+    await e.preventDefault();
     try {
       let userUpdateInfo = {
         firstName: currentUserFromDB.firstName,
@@ -176,6 +177,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           other: other,
         },
         email: currentUserFromDB.email,
+        pfp_url: profilePic,
         spotifyUsername: currentUserFromDB.spotifyUsername,
         matches: currentUserFromDB.matches,
         rejects: currentUserFromDB.rejects,
@@ -197,6 +199,8 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     }
   }
 
+  
+
 
   function openModal() {
     setIsOpen(true);
@@ -217,19 +221,19 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     return (
       <div className="Bio">
         <div className="Bio-Divider">
-          <h3>Description:</h3>
+          <h2>Description:</h2>
           <div>
             {userData.bio.description}
           </div>
         </div>
         <div className="Bio-Divider">
-          <h3>Fun Fact:</h3>
+          <h2>Fun Fact:</h2>
           <div> 
             {userData.bio.funFact}
           </div>
         </div>
         <div className="Bio-Divider">
-          <h3>Other:</h3>
+          <h2>Other:</h2>
           <div>
             {userData.bio.other}
           </div>
@@ -242,7 +246,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     return (
       <a href="http://localhost:8888/spotify/login">
         <button className="PButton" type="button">
-          {userData.topTracks.length > 0 ? "Connect to Spotify" : "Connect Your Spotify Account" }
+          {userData.topTracks.length > 0 ? "Refresh Spotify Info" : "Connect to Spotify" }
         </button>
       </a>
     );
@@ -250,14 +254,14 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   const Picture = () => {
     return (
-        <img className="ProfilePic" src="/images/profile/blank_pfp.png" alt="Profile Picture"></img>
+        <img className="ProfilePic" src={profilePic} alt="Profile Picture"></img>
     );
   };
 
   const TopTracks = () => {
     return (
       <div className="TopList">
-        <h3>Top Tracks</h3>
+        <h2>Top Tracks</h2>
           {userData.topTracks.map((track, index) => {
             return (
               <div key={index}>
@@ -272,7 +276,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const TopArtists = () => {
     return (
       <div className="TopList">
-        <h3>Top Artists</h3>
+        <h2>Top Artists</h2>
           {userData.topArtists.map((artist, index) => {
             return (
               <div key={index}>
@@ -303,6 +307,9 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           <div className="MakingWidth">
             <div className="name">
               Hello, {" "}{userData.firstName} {userData.lastName}{" "}
+            </div>
+            <div className="SpotifyUsername">
+              <a href={`https://open.spotify.com/user/${userData.spotifyUsername}`} target="_blank">@{userData.spotifyUsername}</a>
             </div>
             <div>
               <div className="row1">
@@ -335,9 +342,20 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             appElement={document.getElementById('profile')}
           >
             <div className="Center-Container">
-              <div className="Center">
+              <div className="Center">           
                 <h1 className="Modal-Header">Editing Profile</h1>
                 <form>
+                <div className="Modal-TextBox">
+                    <input
+                      type="text"
+                      name="pfp_url"
+                      defaultValue={userData.bio.pfp_url}
+                      onChange={(e) => {
+                        setProfilePic(e.target.value);
+                      }}
+                    />
+                    <label>Profile Pic Url</label>
+                  </div>
                   <div className="Modal-TextBox">
                     <input
                       type="text"
@@ -376,7 +394,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                 Save & Close
               </button>
             </div>
-            {modalError && <p>{`${modalError}`}</p>}
+            {modalError && <p className="ErrorMessage">{`${modalError}`}</p>}
             </div>
           </Modal>
         </div>

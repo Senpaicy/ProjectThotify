@@ -30,14 +30,13 @@ h1 {
 }
 
 h2 { 
-    font-size: 2.25rem; 
+    font-size: 1rem; 
     font-weight: 700; 
     margin-bottom: 10px; 
-    text-align: center; 
+    text-align: left; 
     text-transform: uppercase; 
     letter-spacing: 2px; 
     color: #fff;
-
 }
 
 div {
@@ -82,7 +81,7 @@ img {
     flex-grow: 1;
 }
 
-.Bio h3 {
+.Bio h2 {
     margin: 0;
 }
 
@@ -109,6 +108,23 @@ img {
 /* Modal Design */
 .Modal-Header {
     color: black;
+}
+
+form .Modal-TextBox-Image {
+    position: relative;
+    margin: 30px 0;
+    color: rgb(0, 0, 0);
+}
+
+.Modal-TextBox-Image input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    color:black
 }
 
 form .Modal-TextBox {
@@ -143,4 +159,15 @@ form .Modal-TextBox {
 .Modal-TextBox input:focus ~ label,
 .Modal-TextBox input:valid ~ label {
     top: -5px;
+}
+
+.SpotifyUsername {
+    text-align: center;
+    padding-bottom: 20px;
+    color: rgba(94, 165, 106, 1);
+    text-decoration: none;
+}
+
+.SpotifyUsername:hover {
+    text-decoration: underline;
 }
