@@ -30,7 +30,7 @@ function Signup() {
       }
       console.log("????????");
       const userInDatabase = await axios.post(
-        "http://localhost:8888/users/create-user-profile",
+        "http://35.163.199.26:8888/users/create-user-profile",
         {
           firstName: firstName,
           lastName: lastName,

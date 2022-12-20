@@ -23,6 +23,6 @@ configRoutes(app);
 
 let port = process.env.PORT || 8888;
 app.listen(port, () => {
-  console.log(`Running locally on: http://localhost:${port}`);
+  console.log(`Running locally on: http://35.163.199.26:${port}`);
 });
 

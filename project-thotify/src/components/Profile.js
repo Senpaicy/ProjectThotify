@@ -83,7 +83,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                   };
                   console.log("userUpdateInfo", userUpdateInfo);
                   const artistData = await axios.post(
-                    "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
+                    "http://35.163.199.26:8888/users/update-user/" + currentUserFromDB._id,
                     { updatedUser: userUpdateInfo }
                   );
                   setCurrentUserFromDB(artistData.data);
@@ -137,7 +137,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const profileURL = "http://localhost:8888/users/";
+  const profileURL = "http://35.163.199.26:8888/users/";
   let { id } = useParams();
 
   useEffect(() => {
@@ -193,7 +193,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
       };
       console.log("userUpdateInfo", userUpdateInfo);
       const updatedUser = await axios.post(
-        "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
+        "http://35.163.199.26:8888/users/update-user/" + currentUserFromDB._id,
         { updatedUser: userUpdateInfo }
       );
       console.log("updated user", updatedUser);
@@ -251,7 +251,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   const ConnectToSpotifyButton = () => {
     return (
-      <a href="http://localhost:8888/spotify/login">
+      <a href="http://35.163.199.26:8888/spotify/login">
         <button className="PButton" type="button">
           {userData.topTracks.length > 0 ? "Refresh Spotify Info" : "Connect to Spotify" }
         </button>
