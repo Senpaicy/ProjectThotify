@@ -1,10 +1,18 @@
 const express = require("express");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
+const fileUpload = require('express-fileupload');
+
 const app = express();
 const configRoutes = require("./routes");
 
 app.use(cors());
+
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+
 app.use(cookieParser());
 
 app.use(express.json());

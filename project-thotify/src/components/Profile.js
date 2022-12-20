@@ -33,6 +33,14 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const {logout} = useAuth();
   let navigate = useNavigate();
   //reference from https://www.youtube.com/watch?v=bhkg2godRDc
+
+  const [pfpImage, setPfpImage] = useState(null);
+
+  function onImageChage(e){
+    console.log("LOG: ",e.target.files);
+    setPfpImage(e.target.files[0]);
+  }
+
   useEffect(() => {
     
     const getTopArtists = async () => {
@@ -172,6 +180,24 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
 
   const handleProfileUpdate = async (e) => {
     await e.preventDefault();
+
+    // pfpImageURL
+    // try{
+      console.log("sending images to server");
+      const data = new FormData();
+      data.append("test", "tested");
+      data.append("name", pfpImage.name);
+      data.append('pfp', pfpImage, {type: "file"});
+      console.log("log data: ", data.entries())
+      const pfpImageURL = await axios.post(
+        "http://localhost:8888/images/ingest-image/",
+        data,
+      );
+      // setProfilePic(pfpImageURL);
+    // }catch(e){
+    //   console.error("Unable to send new pfp to server: ", e);
+    // }
+
     try {
       let userUpdateInfo = {
         firstName: currentUserFromDB.firstName,
@@ -182,7 +208,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
           other: other,
         },
         email: currentUserFromDB.email,
-        pfp_url: profilePic,
+        pfp_url: pfpImageURL,
         spotifyUsername: currentUserFromDB.spotifyUsername,
         matches: currentUserFromDB.matches,
         rejects: currentUserFromDB.rejects,
@@ -372,7 +398,9 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                 <h1 className="Modal-Header">Editing Profile</h1>
                 <form>
                 <div className="Modal-TextBox">
-                    <input
+                    <input type="file" accept="image/*" name="pfp_url" onChange={onImageChage} />
+
+                    {/* <input
                       type="text"
                       name="pfp_url"
                       id="pfp_url"
@@ -380,7 +408,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                       onChange={(e) => {
                         setProfilePic(e.target.value);
                       }}
-                    />
+                    /> */}
                     <label htmlFor="pfp_url">Profile Pic Url</label>
                   </div>
                   <div className="Modal-TextBox">
