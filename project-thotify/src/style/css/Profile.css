@@ -69,14 +69,6 @@ img {
     margin: 0 auto;
 }
 
-.Modal-Header {
-    color: black;
-}
-
-.Modal-TextBox {
-    color: black;
-}
-
 .TopList {
     padding: 30px
 }
@@ -111,4 +103,44 @@ img {
     height: 20px;
     padding: 4px;
     margin: 0;
+}
+
+
+/* Modal Design */
+.Modal-Header {
+    color: black;
+}
+
+form .Modal-TextBox {
+    position: relative;
+    margin: 30px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.685);
+    color: rgb(0, 0, 0);
+}
+
+.Modal-TextBox input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+    color:black
+}
+
+.Modal-TextBox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+    font-weight: 300;
+}
+
+.Modal-TextBox input:focus ~ label,
+.Modal-TextBox input:valid ~ label {
+    top: -5px;
 }

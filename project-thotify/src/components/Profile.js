@@ -216,7 +216,6 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const Bio = () => {
     return (
       <div className="Bio">
-        
         <div className="Bio-Divider">
           <h3>Description:</h3>
           <div>
@@ -235,10 +234,6 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
             {userData.bio.other}
           </div>
         </div>
-        <div className="Bio-Divider-B">
-          <button className="Bio-Edit-Button" onClick={openModal}>Edit</button>
-        </div>
-        
       </div>
     );
   };
@@ -246,8 +241,8 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const ConnectToSpotifyButton = () => {
     return (
       <a href="http://localhost:8888/spotify/login">
-        <button type="button">
-          {userData.topTracks.length > 0 ? "Refresh Your Spotify Info" : "Connect Your Spotify Account" }
+        <button className="PButton" type="button">
+          {userData.topTracks.length > 0 ? "Connect to Spotify" : "Connect Your Spotify Account" }
         </button>
       </a>
     );
@@ -305,78 +300,85 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     } else {
       return (
         <div id="profile" className="container">
-          <div className="name">
-            Hello, {" "}{userData.firstName} {userData.lastName}{" "}
-          </div>
-          <div>
-            <div className="row1">
-              <Picture />
-              <Bio />
+          <div className="MakingWidth">
+            <div className="name">
+              Hello, {" "}{userData.firstName} {userData.lastName}{" "}
             </div>
-            <div className="row2">
-              <TopTracks />
-              <TopArtists />
+            <div>
+              <div className="row1">
+                <Picture />
+                <Bio />
+              </div>
+              <div className="row2">
+                <TopTracks />
+                <TopArtists />
+              </div>
             </div>
-          </div>
-          <div>
-            <ConnectToSpotifyButton />
-            <button type="button" onClick={handleSignOut}>Sign Out</button>
+            <div className="Button-Div">
+              <ConnectToSpotifyButton />
+
+              <button className="PButton" type="button" onClick={openModal}>
+                Edit Bio
+              </button>
+
+              <button className="PButton" type="button" onClick={handleSignOut}>
+                Sign Out
+              </button>
+            </div>
           </div>
 
           <Modal
             isOpen={modalIsOpen}
             onAfterOpen={afterOpenModal}
             onRequestClose={closeModal}
-            // style={customStyles}
             contentLabel="Example Modal"
             appElement={document.getElementById('profile')}
           >
-            <div className="Modal-TextBox">
-              
-            
-            <h2 className="Modal-Header">Hello</h2>
-            <div>I am a modal</div>
-            <form>
-            <div className="Modal-TextBox">
-            <input
-              type="text"
-              name="description"
-              defaultValue={userData.bio.description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-            />
-            <label>Description</label>
-          </div>
-          <div className="Modal-TextBox">
-            <input
-              type="text"
-              name="funFact"
-              defaultValue={userData.bio.funFact}
-              onChange={(e) => {
-                setFunFact(e.target.value);
-              }}
-            />
-            <label>Fun Fact</label>
-          </div>
-          <div className="Modal-TextBox">
-            <input
-              type="text"
-              name="other"
-              defaultValue={userData.bio.other}
-              onChange={(e) => {
-                setOther(e.target.value);
-              }}
-            />
-            <label>Other</label>
-          </div>
-              
-            </form>
-            <button onClick={handleProfileUpdate}>Save & Close</button>
+            <div className="Center-Container">
+              <div className="Center">
+                <h1 className="Modal-Header">Editing Profile</h1>
+                <form>
+                  <div className="Modal-TextBox">
+                    <input
+                      type="text"
+                      name="description"
+                      defaultValue={userData.bio.description}
+                      onChange={(e) => {
+                        setDescription(e.target.value);
+                      }}
+                    />
+                    <label>Description</label>
+                  </div>
+                  <div className="Modal-TextBox">
+                    <input
+                      type="text"
+                      name="funFact"
+                      defaultValue={userData.bio.funFact}
+                      onChange={(e) => {
+                        setFunFact(e.target.value);
+                      }}
+                    />
+                    <label>Fun Fact</label>
+                  </div>
+                  <div className="Modal-TextBox">
+                    <input
+                      type="text"
+                      name="other"
+                      defaultValue={userData.bio.other}
+                      onChange={(e) => {
+                        setOther(e.target.value);
+                      }}
+                    />
+                    <label>Other</label>
+                  </div>
+              </form>
+              <button onClick={handleProfileUpdate}>
+                Save & Close
+              </button>
+            </div>
             {modalError && <p>{`${modalError}`}</p>}
             </div>
           </Modal>
-
         </div>
       );
     }

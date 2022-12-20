@@ -172,29 +172,41 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
           <div className='Center-Container'>
             
           {matchData.map((person) => {
-
             const tracksInCommon = person.topTracks.filter((track) => currentUserFromDB.topTracks.includes(track));
             const artistsInCommon = person.topArtists.filter((artist) => currentUserFromDB.topArtists.includes(artist));
-            
-            
-
-
-            return (
+           return (
               <div className='Center' key={person._id}>
                 <div className='Text-Field'>
                
                   <h1>{person.firstName}</h1>
-                  <div>{person.bio.description}</div>
-                  <div>{person.bio.funFact}</div>
-                  <div>{person.bio.other}</div>
-                  <h2>You have these top songs in common: </h2>
+                  <div className="Bio">
+                    <div className="Bio-Divider">
+                      <h3>Description:</h3>
+                      <div>
+                        {person.bio.description}
+                      </div>
+                    </div>
+                    <div className="Bio-Divider">
+                      <h3>Fun Fact:</h3>
+                      <div> 
+                        {person.bio.funFact}
+                      </div>
+                    </div>
+                    <div className="Bio-Divider">
+                      <h3>Other:</h3>
+                      <div>
+                        {person.bio.other}
+                      </div>
+                    </div>
+                  </div>
+                  <h2>{person.firstName}'s Top Song: </h2>
                   <ul>
                     {tracksInCommon.map((track) => {
                       return (<li>
                         {track}
                       </li>)})}
                   </ul>
-                  <h2>You have these top artists in common:</h2>
+                  <h2>{person.firstName}'s Top Artist:</h2>
                   <ul>
                     {artistsInCommon.map((artist) => {
                       return (<li>

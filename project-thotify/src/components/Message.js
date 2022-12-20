@@ -6,6 +6,7 @@ import React, {
 
 import io from 'socket.io-client';
 import './../App.css';
+import './../style/css/Messages.css';
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -137,27 +138,34 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
           <div className='Center-Container'>
             <h1>Chat With {state.recipient}</h1>
             <div className='Center'>
-            {renderHistory()}
-            {renderChat()}
-            </div>
-          </div>
-          <form onSubmit={onMessageSubmit}>
-            <div>
-              <label htmlFor='message'>Type Message Here: </label>
-              <input
-                 className='Center'
-                name='message'
-                id='message'
-                variant='outlined'
-                label='Message'
-              />
-            </div>
-            <button>Send Message</button>
+              <div className='Formatting-Text'>
+                {renderHistory()}
+                {renderChat()}
+              </div>
+            <form onSubmit={onMessageSubmit}>
+              <div>
+                <div className="Text-Field">
+                  <input
+                    className='Center'
+                    placeholder='Type Message Here'
+                    name='message'
+                    id='message'
+                    variant='outlined'
+                    label='Message'
+                  />
+                  <label></label>
+                </div>
+                <button>Send Message</button>
+              </div>
+            
             <br/><br/>
           </form>
           {/* <form onSubmit={onRoomLeave}>
             <button>Leave Chat</button>
           </form> */}
+            </div>
+          </div>
+          
         </div>
       )}
 

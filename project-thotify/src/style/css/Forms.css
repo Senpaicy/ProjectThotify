@@ -57,6 +57,7 @@ form .Text-Field {
     font-size: 16px;
     pointer-events: none;
     transition: .5s;
+    font-weight: 500;
 }
 
 .Text-Field input:focus ~ label,
