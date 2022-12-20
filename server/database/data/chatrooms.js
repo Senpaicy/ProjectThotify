@@ -19,7 +19,8 @@ const exportedMethods = {
         const chat = await chatCollection.findOne({ _id: ObjectId(chat_id) });
         if (!chat) throw "Error: Chatroom is not found.";
         return chat;
-    },async getChatByName(chat_name) {
+    },
+    async getChatByName(chat_name) {
         chat_id = errorChecking.checkString(chat_name, 'Chat Name', true);
 
         const chatCollection = await chats();

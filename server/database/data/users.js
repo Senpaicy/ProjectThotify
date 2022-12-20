@@ -30,7 +30,11 @@ let exportedMethods = {
   async addUser(firstName, lastName, email, bio) {
     firstName = errorChecking.checkString(firstName, "First Name", false);
     lastName = errorChecking.checkString(lastName, "Last Name", false);
+    console.log("chekcin")
     email = errorChecking.checkString(email, "Email", true);
+    console.log("chekcin")
+    email = errorChecking.checkEmail(email);
+    console.log("made it past email check");
     bio.description = errorChecking.checkString(
       bio.description,
       "Bio Description",
@@ -100,6 +104,9 @@ let exportedMethods = {
       "email",
       true
     );
+    updatedUser.email = errorChecking.checkEmail(
+      updatedUser.email
+    );
     updatedUser.bio.description = errorChecking.checkString(
       updatedUser.bio.description,
       "Bio Description",
@@ -163,7 +170,7 @@ let exportedMethods = {
       prospectiveMatches: updatedUser.prospectiveMatches,
       topArtists: updatedUser.topArtists,
       topArtistImgs: updatedUser.topArtistImgs,
-      topTracks: updatedUser.topTracks,
+      topTracks: updatedUser.topTracks
     };
 
     const userCollection = await users();
