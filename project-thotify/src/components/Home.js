@@ -82,6 +82,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
       bio: currentUserFromDB.bio,
       email: currentUserFromDB.email,
       spotifyUsername: currentUserFromDB.spotifyUsername,
+      pfp_url: currentUserFromDB.pfp_url,
       matches: matches,
       rejects: currentUserFromDB.rejects,
       prospectiveMatches: currentUserFromDB.prospectiveMatches,

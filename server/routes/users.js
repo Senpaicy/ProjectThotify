@@ -199,14 +199,14 @@ router.post("/create-user-profile", async (req, res) => {
         other: userSignUpInfo.other,
       }
     };
-
+    console.log("chekcin")
     const creatingUser = await userFunctions.addUser(
       newUser.firstName,
       newUser.lastName,
       newUser.email,
       newUser.bio
     );
-
+    console.log("chekcin2")
     res.json(creatingUser);
   } catch (e) {
     res.status(500).json({ error: e });

@@ -60,8 +60,7 @@ form .Text-Field {
     font-weight: 500;
 }
 
-.Text-Field input:focus ~ label,
-.Text-Field input:valid ~ label {
+.Text-Field input ~ label {
     top: -5px;
 }
 

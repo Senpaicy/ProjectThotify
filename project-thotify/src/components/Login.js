@@ -44,6 +44,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
               name="email"
               id="email"
               placeholder=""
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -61,7 +62,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
               }}
             />
             <label htmlFor="password">Password</label>
-          </div>        
+          </div>      
           <div className="ErrorMessage">
             {error && 
               <p>

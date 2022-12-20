@@ -93,6 +93,7 @@ function Signup() {
               name="email"
               id="email"
               placeholder=""
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -118,6 +119,9 @@ function Signup() {
               name="passwordConfirmation"
               id="passwordConfirmation"
               placeholder=""
+              minLength="8"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[#?!@$%^&*-\]\[]).{8,}"
+              title="Password should be 8 letters long with a symbol, number, and uppercase letter. (Example: passworD123!)"
               onChange={(e) => {
                 setPasswordConfirmation(e.target.value);
               }}
