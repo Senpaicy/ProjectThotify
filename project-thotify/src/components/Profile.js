@@ -185,9 +185,11 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
     // try{
       console.log("sending images to server");
       const data = new FormData();
-      data.append("test", "tested");
       data.append("name", pfpImage.name);
+      data.append('id', currentUserFromDB._id);
+      data.append('account_type', 'user')
       data.append('pfp', pfpImage, {type: "file"});
+      
       console.log("log data: ", data.entries())
       const pfpImageURL = await axios.post(
         "http://localhost:8888/images/ingest-image/",
