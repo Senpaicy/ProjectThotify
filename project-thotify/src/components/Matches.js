@@ -79,16 +79,21 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
             <h1>{match.name}</h1>
             
             <Link to={`/message/${match.chatroom}`}>
-              <button>Chat</button>
+              <div className='PButton'>
+                <p>Chat</p>
+              </div>
             </Link>
-            <button
-              className='button'
-              onClick={() =>
-                unmatch(match)
-              }
-            >
-              Unmatch
-            </button>
+            <div className='PButton'>
+              <p
+                className='button'
+                onClick={() =>
+                  unmatch(match)
+                }
+              >
+                Unmatch
+              </p>
+            </div>
+            
           </div>
           
         </div>       

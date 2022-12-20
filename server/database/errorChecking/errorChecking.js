@@ -48,7 +48,13 @@ module.exports = {
         }
       }
     }
-
     return arr;
   },
+  checkEmail(email) {
+    console.log("hello?");
+    const validRegex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    console.log("hello1");
+    if(!validRegex.test(email)) throw `Error: ${email} is an invalid email.`;
+    return email;
+  }
 };

@@ -81,7 +81,7 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
                     bio: currentUserFromDB.bio,
                     email: currentUserFromDB.email,
                     spotifyUsername: userName,
-                    pfp_url: profilePic,
+                    pfp_url: currentUserFromDB.pfp_url,
                     matches: currentUserFromDB.matches,
                     rejects: currentUserFromDB.rejects,
                     prospectiveMatches: currentUserFromDB.prospectiveMatches,
@@ -278,9 +278,12 @@ function Profile({ currentUserFromDB, setCurrentUserFromDB }) {
   const ConnectToSpotifyButton = () => {
     return (
       <a href="http://localhost:8888/spotify/login">
-        <button className="PButton" type="button">
-          {userData.topTracks.length > 0 ? "Refresh Spotify Info" : "Connect to Spotify" }
-        </button>
+        <div className="PButton">
+          <p >
+            {userData.spotifyUsername ? "Refresh Spotify Info" : "Connect to Spotify" }
+          </p>
+        </div>
+        
       </a>
     );
   };
