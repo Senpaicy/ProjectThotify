@@ -29,7 +29,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
         //should be in the form of:
         //[{_id: 123141414, name: 'John', chatroom:'123', img}, ....]
         const {data} = await axios.get(
-          "http://54.186.68.123:8888/users/chat/" + chatroom,
+          "http://54.186.68.123/users/chat/" + chatroom,
         );
         console.log("data", data);
         setState({message: '', name: currentUserFromDB.firstName, room: chatroom, recipient: recipient, history: data.history});
@@ -84,7 +84,7 @@ function Message({currentUserFromDB, setCurrentUserFromDB}) {
     console.log("messageInfo", messageInfo);
     try{
       const uploadMessage = await axios.post(
-        "http://54.186.68.123:8888/users/chat/" + chatroom,
+        "http://54.186.68.123/users/chat/" + chatroom,
         {
           message: messageInfo
         }

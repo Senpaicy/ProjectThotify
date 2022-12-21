@@ -30,7 +30,7 @@ function Signup() {
       }
       console.log("????????");
       const userInDatabase = await axios.post(
-        "http://54.186.68.123:8888/users/create-user-profile",
+        "http://54.186.68.123/users/create-user-profile",
         {
           firstName: firstName,
           lastName: lastName,

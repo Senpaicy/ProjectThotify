@@ -10,7 +10,7 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
   const [matchData, setMatchData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const matchesURL = "http://54.186.68.123:8888/users/";
+  const matchesURL = "http://54.186.68.123/users/";
 
   useEffect(() => {
     async function fetchData() {
@@ -54,13 +54,13 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
     };
 
     const newMatchData = await axios.post(
-      "http://54.186.68.123:8888/users/update-user/" + currentUserFromDB._id,
+      "http://54.186.68.123/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
     );
 
     console.log("chatroom", chatroom);
     const deleteChat = await axios.delete(
-      "http://54.186.68.123:8888/users/delete-chatroom/",
+      "http://54.186.68.123/users/delete-chatroom/",
       { 
         data: {chatName: chatroom}
       }
