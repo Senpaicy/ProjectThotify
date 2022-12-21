@@ -20,15 +20,15 @@ router.post("/ingest-image", async (req, res) => {
     } else{
         let uploaded = req.files.pfp;
         const rawPath = 'tmp/raw/' + name; 
-        const small = 'tmp/small/' + name;
-        const large = 'tmp/large/' + name;
+        const small = '/tmp/small/' + name;
+        const large = './tmp/large/' + name;
 
         uploaded.mv(rawPath);
         //IMAGE MAGICK:
         im.resize({
             srcPath: rawPath,
             dstPath: small,
-            width:   256
+            width:   "256"
           }, function(err, stdout, stderr){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
