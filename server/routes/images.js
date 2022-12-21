@@ -30,7 +30,7 @@ router.post("/ingest-image", async (req, res) => {
         //     dstPath: small,
         //     width:   "256"
         //   }, function(err, stdout, stderr){
-          im.convert([rawPath, '-resize', '25x120', small], 
+          im.convert(["./"+rawPath, '-resize', '25x120', small], 
           function(err, stdout){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
@@ -55,7 +55,7 @@ router.post("/ingest-image", async (req, res) => {
           //   srcPath: './' + rawPath,
           //   dstPath: large,
           //   width:   "256"
-          im.convert([rawPath, '-resize', '25x120', large]
+          im.convert(["./"+rawPath, '-resize', '25x120', large]
           , function(err, stdout, stderr){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
