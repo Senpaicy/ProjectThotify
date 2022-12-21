@@ -61,7 +61,7 @@ router.post("/ingest-image", async (req, res) => {
             // Setting up S3 upload parameters
             const params2 = {
                 Key: req.body.account_type + '/' + req.body.id + '/large' , // File name you want to save as in S3
-                Body: fileContent
+                Body: fileContent2
             };
             // Uploading files to the bucket
             s3Bucket.upload(params2, function(err, data) {
