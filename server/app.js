@@ -22,9 +22,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("../project-thotify/build"));
 
-app.get("*", (req, res) => {
+app.get("/", (req, res, next) => {
   console.log(__dirname);
   res.sendFile(path.join(__dirname, '../project-thotify/build/index.html'));
+  next();
 });
 
 configRoutes(app);
