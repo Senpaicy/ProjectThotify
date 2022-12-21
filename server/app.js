@@ -25,7 +25,7 @@ app.use(express.static("../project-thotify/build"));
 
 configRoutes(app);
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   console.log(__dirname);
   res.sendFile(path.join(__dirname, '../project-thotify/build/index.html'));
 });
