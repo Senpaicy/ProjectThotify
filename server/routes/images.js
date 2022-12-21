@@ -21,12 +21,12 @@ router.post("/ingest-image", async (req, res) => {
         let uploaded = req.files.pfp;
         const rawPath = 'tmp/raw/' + name; 
         const small = '/tmp/small/' + name;
-        const large = './tmp/large/' + name;
+        const large = '/tmp/large/' + name;
 
         uploaded.mv(rawPath);
         //IMAGE MAGICK:
         im.resize({
-            srcPath: rawPath,
+            srcPath: './' + rawPath,
             dstPath: small,
             width:   "256"
           }, function(err, stdout, stderr){
