@@ -4,8 +4,9 @@ import {
   NavLink,
   BrowserRouter as Router,
   Route,
-  Routes, useNavigate
-} from "react-router-dom"
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 
@@ -25,8 +26,8 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(passwordConfirmation !== password) {
-        throw("Error: Passwords don't match");
+      if (passwordConfirmation !== password) {
+        throw "Error: Passwords don't match";
       }
       console.log("????????");
       const userInDatabase = await axios.post(
@@ -46,12 +47,11 @@ function Signup() {
     } catch (error) {
       console.log("am i erroring");
       console.log("Error", error);
-      if(error.response && error.response.data.error){
-      setError(error.response.data.error);
-      }else {
+      if (error.response && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
         setError(error);
       }
-
     }
   };
 
@@ -59,7 +59,7 @@ function Signup() {
     <div className="Center-Container">
       <div className="Center">
         <h1>Register</h1>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="Text-Field">
             <input
@@ -106,6 +106,8 @@ function Signup() {
               type="password"
               name="password"
               id="password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[#?!@$%^&*-\]\[]).{8,}"
+              title="Password should be 8 letters long with a symbol, number, and uppercase letter. (Example: passworD123!)"
               placeholder=""
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -138,7 +140,9 @@ function Signup() {
                 setDescription(e.target.value);
               }}
             />
-            <label htmlFor="description">Describe yourself in a couple of words...</label>
+            <label htmlFor="description">
+              Describe yourself in a couple of words...
+            </label>
           </div>
           <div className="Text-Field">
             <input
@@ -150,7 +154,9 @@ function Signup() {
                 setFunFact(e.target.value);
               }}
             />
-            <label htmlFor="funFact">Add a little fun fact about yourself...</label>
+            <label htmlFor="funFact">
+              Add a little fun fact about yourself...
+            </label>
           </div>
           <div className="Text-Field">
             <input
@@ -164,18 +170,12 @@ function Signup() {
             />
             <label htmlFor="other">Any extra information?</label>
           </div>
-          <div className="ErrorMessage">
-            {error && 
-              <p>
-                {`${error}`}
-              </p>
-            }
-          </div>      
+          <div className="ErrorMessage">{error && <p>{`${error}`}</p>}</div>
           <button type="submit">Register</button>
           <div className="Signup-Link">
             Already a Member? <NavLink to="/login">Login</NavLink>
           </div>
-        </form>        
+        </form>
       </div>
     </div>
   );
