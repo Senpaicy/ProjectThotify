@@ -19,8 +19,7 @@ import TestComponent from "./components/TestComponent";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./components/LandingPage";
 import ErrorPage from "./components/ErrorPage";
-
-
+import UserProfile from "./components/UserProfile";
 function App() {
   const [currentUserFromDB, setCurrentUserFromDB] = useState();
 
@@ -51,46 +50,50 @@ function App() {
           <div className="Row">
             {currentUserFromDB && (
               <NavLink to={`/`}>
-                <p className="SignUpButton">
-                  HOME
-                </p>
+                <p className="SignUpButton">HOME</p>
               </NavLink>
             )}
             {currentUserFromDB && (
               <NavLink to={`/my-profile/`}>
-                <p className="SignUpButton">
-                  MY PROFILE
-                </p>
+                <p className="SignUpButton">MY PROFILE</p>
               </NavLink>
             )}
             {currentUserFromDB && (
               <NavLink to="/my-matches">
-                <p className="SignUpButton">
-                  MY MATCHES
-                </p>
+                <p className="SignUpButton">MY MATCHES</p>
               </NavLink>
             )}
-            {!currentUserFromDB &&
+            {!currentUserFromDB && (
               <NavLink to="/login">
-                <p className="SignUpButton">
-                  LOGIN
-                </p>
+                <p className="SignUpButton">LOGIN</p>
               </NavLink>
-            }
-            {!currentUserFromDB && 
+            )}
+            {!currentUserFromDB && (
               <NavLink to="/signup">
-                <p className="SignUpButton">
-                  SIGN UP
-                </p>
+                <p className="SignUpButton">SIGN UP</p>
               </NavLink>
-            }
+            )}
           </div>
         </header>
 
         <div className="App-body">
           <Routes>
-            {currentUserFromDB ? <Route exact path="/" element={<ProtectedRoute><Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} /></ProtectedRoute>} />
-            : <Route exact path="/" element={<LandingPage />} />}
+            {currentUserFromDB ? (
+              <Route
+                exact
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home
+                      currentUserFromDB={currentUserFromDB}
+                      setCurrentUserFromDB={setCurrentUserFromDB}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+            ) : (
+              <Route exact path="/" element={<LandingPage />} />
+            )}
             {/* <Route exact path="/home" element={<ProtectedRoute><Home currentUserFromDB={currentUserFromDB} setCurrentUserFromDB={setCurrentUserFromDB} /></ProtectedRoute>} /> */}
             <Route
               path="/my-profile/"
@@ -103,22 +106,37 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route exact path="/my-matches/" element={
-              <ProtectedRoute>
-                <Matches
-                  currentUserFromDB={currentUserFromDB}
-                  setCurrentUserFromDB={setCurrentUserFromDB}
-                />
-              </ProtectedRoute>
-            } />
-            <Route path="/message/:chatroom" element={
+            <Route
+              path="/user-profile/:userId"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="/my-matches/"
+              element={
+                <ProtectedRoute>
+                  <Matches
+                    currentUserFromDB={currentUserFromDB}
+                    setCurrentUserFromDB={setCurrentUserFromDB}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/message/:chatroom"
+              element={
                 <ProtectedRoute>
                   <Message
                     currentUserFromDB={currentUserFromDB}
                     setCurrentUserFromDB={setCurrentUserFromDB}
                   />
                 </ProtectedRoute>
-              } />
+              }
+            />
             <Route
               path="/login/"
               element={
@@ -137,7 +155,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path='*' element={<ErrorPage />}/>
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
       </AuthProvider>
