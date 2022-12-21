@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import './../App.css';
+import React, { useState, useEffect } from "react";
+import "./../App.css";
 import "../style/css/Forms.css";
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-
-function Matches({currentUserFromDB, setCurrentUserFromDB}) {
-
+function Matches({ currentUserFromDB, setCurrentUserFromDB }) {
   const [matchData, setMatchData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
@@ -29,13 +27,13 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
     fetchData();
   }, [currentUserFromDB]);
 
-  async function unmatch(person){
+  async function unmatch(person) {
     console.log("person", person);
     console.log("unmatched ", person.name);
     let chatroom;
-    if (person._id > currentUserFromDB._id){
+    if (person._id > currentUserFromDB._id) {
       chatroom = person._id + "-" + currentUserFromDB._id;
-    }else{
+    } else {
       chatroom = currentUserFromDB._id + "-" + person._id;
     }
     let userUpdateInfo = {
@@ -45,7 +43,9 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
       email: currentUserFromDB.email,
       spotifyUsername: currentUserFromDB.spotifyUsername,
       pfp_url: currentUserFromDB.pfp_url,
-      matches: currentUserFromDB.matches.filter((user) => user._id !== person._id),
+      matches: currentUserFromDB.matches.filter(
+        (user) => user._id !== person._id
+      ),
       rejects: currentUserFromDB.rejects,
       prospectiveMatches: currentUserFromDB.prospectiveMatches,
       topArtists: currentUserFromDB.topArtists,
@@ -61,42 +61,34 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
     console.log("chatroom", chatroom);
     const deleteChat = await axios.delete(
       "http://localhost:8888/users/delete-chatroom/",
-      { 
-        data: {chatName: chatroom}
+      {
+        data: { chatName: chatroom },
       }
     );
-    
+
     setCurrentUserFromDB(newMatchData.data);
-    
   }
 
   const buildListItem = (match) => {
     return (
       <div key={match._id}>
-        <div className='Center-Container'>
-          <div className='Center'>
+        <div className="Center-Container">
+          <div className="Center">
             {/* <Link to={`/Profile/${match._id}`}>{match.img}</Link> */}
             <h1>{match.name}</h1>
-            
+
             <Link to={`/message/${match.chatroom}`}>
-              <div className='PButton'>
+              <div className="PButton">
                 <p>Chat</p>
               </div>
             </Link>
-            <div className='PButton'>
-              <p
-                className='button'
-                onClick={() =>
-                  unmatch(match)
-                }
-              >
+            <div className="PButton">
+              <p className="button" onClick={() => unmatch(match)}>
                 Unmatch
               </p>
             </div>
-            
           </div>
-          
-        </div>       
+        </div>
       </div>
     );
   };
@@ -125,12 +117,13 @@ function Matches({currentUserFromDB, setCurrentUserFromDB}) {
         <div className="App-body">
           {errorMsg}
           <br />
-          <div className="list-unstyled">{li}</div>
+          <div className="list-unstyled">
+            {li.length > 0 ? li : <h1>No Matches</h1>}
+          </div>
         </div>
       );
     }
   }
-
-};
+}
 
 export default Matches;
