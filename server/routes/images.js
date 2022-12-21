@@ -50,7 +50,7 @@ router.post("/ingest-image", async (req, res) => {
 
           });
           im.resize({
-            srcPath: rawPath,
+            srcPath: './' + rawPath,
             dstPath: large,
             width:   256
           }, function(err, stdout, stderr){
