@@ -32,6 +32,22 @@ router.post("/ingest-image", async (req, res) => {
           }, function(err, stdout, stderr){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
+            
+            const fileContent = fs.readFileSync(small);
+            // Setting up S3 upload parameters
+            const params = {
+                Key: req.body.account_type + '/' + req.body.id + '/small' , // File name you want to save as in S3
+                Body: fileContent
+            };
+            // Uploading files to the bucket
+            s3Bucket.upload(params, function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                console.log(`File uploaded successfully. ${data.Location}`);
+            });
+            fs.unlink(small);
+
           });
           im.resize({
             srcPath: rawPath,
@@ -40,6 +56,22 @@ router.post("/ingest-image", async (req, res) => {
           }, function(err, stdout, stderr){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
+
+            const fileContent2 = fs.readFileSync(large);
+            // Setting up S3 upload parameters
+            const params2 = {
+                Key: req.body.account_type + '/' + req.body.id + '/large' , // File name you want to save as in S3
+                Body: fileContent
+            };
+            // Uploading files to the bucket
+            s3Bucket.upload(params2, function(err, data) {
+                if (err) {
+                    throw err;
+                }
+                console.log(`File uploaded successfully. ${data.Location}`);
+            });
+            fs.unlink(large);
+
           });
 
         /*
@@ -50,34 +82,8 @@ router.post("/ingest-image", async (req, res) => {
             /artist/id/
                 picture
         */
-        const fileContent = fs.readFileSync(small);
-        // Setting up S3 upload parameters
-        const params = {
-            Key: req.body.account_type + '/' + req.body.id + '/small' , // File name you want to save as in S3
-            Body: fileContent
-        };
-        // Uploading files to the bucket
-        s3Bucket.upload(params, function(err, data) {
-            if (err) {
-                throw err;
-            }
-            console.log(`File uploaded successfully. ${data.Location}`);
-        });
-        fs.unlink(small);
-        const fileContent2 = fs.readFileSync(large);
-        // Setting up S3 upload parameters
-        const params2 = {
-            Key: req.body.account_type + '/' + req.body.id + '/large' , // File name you want to save as in S3
-            Body: fileContent
-        };
-        // Uploading files to the bucket
-        s3Bucket.upload(params2, function(err, data) {
-            if (err) {
-                throw err;
-            }
-            console.log(`File uploaded successfully. ${data.Location}`);
-        });
-        fs.unlink(large);
+       
+        
         
         fs.unlink(rawPath);
         res.send({
