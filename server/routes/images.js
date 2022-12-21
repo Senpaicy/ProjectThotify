@@ -19,9 +19,9 @@ router.post("/ingest-image", async (req, res) => {
         })
     } else{
         let uploaded = req.files.pfp;
-        const rawPath = '.\\tmp\\raw\\' + name; 
-        const small = '.\\tmp\\small\\' + name;
-        const large = '.\\tmp\\large\\' + name;
+        const rawPath = 'tmp\\raw\\' + name; 
+        const small = 'tmp\\small\\' + name;
+        const large = 'tmp\\large\\' + name;
 
         uploaded.mv(rawPath);
         //IMAGE MAGICK:
