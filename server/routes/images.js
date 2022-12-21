@@ -25,11 +25,13 @@ router.post("/ingest-image", async (req, res) => {
 
         uploaded.mv(rawPath);
         //IMAGE MAGICK:
-        im.resize({
-            srcPath: './' + rawPath,
-            dstPath: small,
-            width:   "256"
-          }, function(err, stdout, stderr){
+        // im.resize({
+        //     srcPath: './' + rawPath,
+        //     dstPath: small,
+        //     width:   "256"
+        //   }, function(err, stdout, stderr){
+          im.convert([rawPath, '-resize', '25x120', small], 
+          function(err, stdout){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
             
@@ -49,11 +51,12 @@ router.post("/ingest-image", async (req, res) => {
             fs.unlink(small);
 
           });
-          im.resize({
-            srcPath: './' + rawPath,
-            dstPath: large,
-            width:   "256"
-          }, function(err, stdout, stderr){
+          // im.resize({
+          //   srcPath: './' + rawPath,
+          //   dstPath: large,
+          //   width:   "256"
+          im.convert([rawPath, '-resize', '25x120', large]
+          , function(err, stdout, stderr){
             if (err) throw err;
             console.log('resized ',rawPath,' to fit within 256x256px');
 
