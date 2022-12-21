@@ -17,7 +17,7 @@ function Login({currentUserFromDB, setCurrentUserFromDB}) {
     e.preventDefault();
     try {
       const user = await login(email, password);
-      const {data} = await axios.post("http://54.186.68.123/users/email/", {email: email});
+      const {data} = await axios.post("http://54.186.68.123:8888/users/email/", {email: email});
       console.log("logged in user: ", data);
       setCurrentUserFromDB(data);
       console.log("Current user from db by state", currentUserFromDB);

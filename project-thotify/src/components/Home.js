@@ -12,7 +12,7 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
   const [matchData, setMatchData] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(undefined);
-  const usersURL = "http://54.186.68.123:8888/users/";
+  const usersURL = "http://localhost:8888/users/";
 
   const matchingAlgorithm = (personA, personB) => {
       const personATracksInCommon = personA.topTracks.filter((track) => currentUserFromDB.topTracks.includes(track));
@@ -92,12 +92,12 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
     };
 
     const newMatchData = await axios.post(
-      "http://54.186.68.123:8888/users/update-user/" + currentUserFromDB._id,
+      "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
     );
 
     const createChat = await axios.post(
-      "http://54.186.68.123:8888/users/create-chatroom/",
+      "http://localhost:8888/users/create-chatroom/",
       { 
         chatName: chatroom,
         users: [currentUserFromDB._id, person._id] 
@@ -134,13 +134,13 @@ function Home({currentUserFromDB, setCurrentUserFromDB}) {
     };
 
     const newMatchData = await axios.post(
-      "http://54.186.68.123:8888/users/update-user/" + currentUserFromDB._id,
+      "http://localhost:8888/users/update-user/" + currentUserFromDB._id,
       { updatedUser: userUpdateInfo }
     );
 
     console.log("chatroom", chatroom);
     const deleteChat = await axios.delete(
-      "http://54.186.68.123:8888/users/delete-chatroom/",
+      "http://localhost:8888/users/delete-chatroom/",
       { 
         data: {chatName: chatroom}
       }
